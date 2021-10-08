@@ -6,5 +6,6 @@
         public string Categories { get; set; }
         public string Level { get; set; }
         public string RevitPropertyType { get; set; }
+        public byte[] PropertyGUID { get; set; }
     }
 }

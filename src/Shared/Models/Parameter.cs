@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BimKrav.Shared.Models
 {
@@ -8,5 +9,6 @@ namespace BimKrav.Shared.Models
         public List<string> Categories { get; set; }
         public string Level { get; set; }
         public string RevitPropertyType { get; set; }
+        public Guid PropertyGUID { get; set; }
     }
 }
