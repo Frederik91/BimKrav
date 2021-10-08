@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using BimKrav.Server.Services;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace BimKrav.Server
 {
@@ -18,13 +23,20 @@ namespace BimKrav.Server
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen();
 
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddControllers();
+            //services.AddControllersWithViews();
+            //services.AddRazorPages();
+            
+            services.AddTransient(_ => new MySqlConnection(Configuration["ConnectionStrings:DbConnection"]));
+            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IMySqlDbConnection, MySqlDbConnection>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IDisciplineService, DisciplineService>();
+            services.AddTransient<IParameterService, ParameterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +45,7 @@ namespace BimKrav.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
+                //app.UseWebAssemblyDebugging();
             }
             else
             {
@@ -42,17 +54,20 @@ namespace BimKrav.Server
                 app.UseHsts();
             }
 
+            app.UseSwagger(options => { options.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+            app.UseSwaggerUI();
+
             app.UseHttpsRedirection();
-            app.UseBlazorFrameworkFiles();
+            //app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                //endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                //endpoints.MapFallbackToFile("index.html");
             });
         }
     }
