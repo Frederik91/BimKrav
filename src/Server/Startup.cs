@@ -26,10 +26,9 @@ namespace BimKrav.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerGen();
-
-            services.AddControllers();
-            //services.AddControllersWithViews();
-            //services.AddRazorPages();
+            
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             
             services.AddTransient(_ => new MySqlConnection(Configuration["ConnectionStrings:DbConnection"]));
             services.AddAutoMapper(typeof(Startup));
@@ -45,7 +44,7 @@ namespace BimKrav.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebAssemblyDebugging();
+                app.UseWebAssemblyDebugging();
             }
             else
             {
@@ -58,16 +57,16 @@ namespace BimKrav.Server
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-            //app.UseBlazorFrameworkFiles();
+            app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapRazorPages();
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
-                //endpoints.MapFallbackToFile("index.html");
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
