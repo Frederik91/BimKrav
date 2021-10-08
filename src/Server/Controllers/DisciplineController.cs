@@ -24,7 +24,7 @@ namespace BimKrav.Server.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<Discipline>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Discipline), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {

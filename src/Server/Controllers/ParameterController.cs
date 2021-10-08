@@ -13,19 +13,19 @@ namespace BimKrav.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ParametersController : Controller
+    public class ParameterController : Controller
     {
-        private readonly ILogger<ParametersController> _logger;
+        private readonly ILogger<ParameterController> _logger;
         private readonly IParameterService _parameterService;
 
-        public ParametersController(ILogger<ParametersController> logger, IParameterService parameterService)
+        public ParameterController(ILogger<ParameterController> logger, IParameterService parameterService)
         {
             _logger = logger;
             _parameterService = parameterService;
         }
 
         [HttpGet("{project}/{phase}/{disciplineCode}")]
-        [ProducesResponseType(typeof(List<Parameter>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Parameter), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetProjectPhaseParameters(string project, string phase, string disciplineCode)
         {

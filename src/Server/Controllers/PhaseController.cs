@@ -15,7 +15,7 @@ namespace BimKrav.Server.Controllers
     public class PhaseController : Controller
     {
         [HttpGet]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public Task<IActionResult> Get()
         {
             return Task.FromResult(Ok(new List<string>
