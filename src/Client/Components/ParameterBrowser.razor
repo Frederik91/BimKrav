@@ -1,0 +1,66 @@
+﻿
+@inherits ParameterBrowserBase
+
+<MudGrid>
+    <MudItem xs=4><ProjectSelector @bind-SelectedProject="@Project"></ProjectSelector></MudItem>
+    <MudItem xs=4><PhaseSelector @bind-SelectedPhase="@Phase"></PhaseSelector></MudItem>
+    <MudItem xs=4><DisciplineSelector @bind-SelectedDiscipline="@Discipline"></DisciplineSelector></MudItem>
+</MudGrid>
+
+
+<MudGrid>
+    <MudItem xs="@(SelectedParameter is null ? 12 : 8)">
+    
+        <MudTable Items="@Parameters" Dense="true" Hover="true" @bind-SelectedItem="@SelectedParameter" Breakpoint="Breakpoint.Sm" Loading="@IsLoading" LoadingProgressColor="Color.Info" Filter="new Func<Parameter,bool>(x => Filter(x))">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Parameters</MudText>
+                    <MudSpacer />
+                <MudTextField @bind-Value="ParameterSearchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+   
+                </ToolBarContent>
+            <HeaderContent>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Parameter, object>(x=>x.PropertyName)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.RevitPropertyType)">Type</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.Level)">Level</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.PropertyGUID)">GUID</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.Categories.Count)">Categories</MudTableSortLabel></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context?.PropertyName</MudTd>
+                <MudTd DataLabel="Type">@context?.RevitPropertyType</MudTd>
+                <MudTd DataLabel="Level">@context?.Level</MudTd>
+                @if (SelectedParameter is null)
+                {
+                    <MudTd DataLabel="GUID">@context?.PropertyGUID</MudTd>
+                }
+                else
+                {
+                    <MudTd>
+                        <MudTooltip Text="@context?.PropertyGUID.ToString()">
+                           <MudAvatar Size="Size.Small" Color="Color.Info" Variant="Variant.Outlined">i</MudAvatar>
+                        </MudTooltip>
+                    </MudTd>
+                }
+                <MudTd DataLabel="Categories"> @context?.Categories?.Count</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudItem>
+    @if (SelectedParameter != null)
+    {
+            <MudItem xs="4">
+                <MudPaper>
+                    <MudContainer Class="d-flex flex-column justify-center">
+                        <MudText Typo="Typo.h5">Categories</MudText>
+                        <MudList Dense="true" >
+                        @foreach (var category in SelectedParameter.Categories ?? new List<string>())
+                        {
+                                <MudListItem>@category</MudListItem>
+                        }
+                        </MudList>
+                    </MudContainer>
+                </MudPaper>
+            </MudItem>
+    }
+</MudGrid>
+
+

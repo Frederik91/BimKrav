@@ -24,6 +24,14 @@ namespace BimKrav.Server.Controllers
             _parameterService = parameterService;
         }
 
+        [HttpGet("{project}/{phase}")]
+        [ProducesResponseType(typeof(Parameter), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public Task<IActionResult> GetProjectPhaseParameters(string project, string phase)
+        {
+            return GetProjectPhaseParameters(project, phase, string.Empty);
+        }
+
         [HttpGet("{project}/{phase}/{disciplineCode}")]
         [ProducesResponseType(typeof(Parameter), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]

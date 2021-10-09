@@ -19,9 +19,9 @@ namespace BimKrav.Server.Services
             _mapper = mapper;
         }
 
-        public async Task<List<Parameter>> GetParametersInProjectByPhase(string project, string phase, string disciplineCode)
+        public async Task<List<Parameter>> GetParametersInProjectByPhase(string project, string phase, string? disciplineCode)
         {
-            var parameters = await _connection.ExecuteQuery<dynamic>($"SELECT PropertyName, GROUP_CONCAT(RevitElement) as Categories, TypeInstans as Level, RevitPropertyType, PropertyGUID FROM `bim`.`z view krav {project}` WHERE {phase} = 1 AND DisiplinKode = '{disciplineCode}' GROUP BY PropertyName");
+            var parameters = await _connection.ExecuteQuery<dynamic>($"SELECT PropertyName, GROUP_CONCAT(RevitElement) as Categories, TypeInstans as Level, RevitPropertyType, PropertyGUID FROM `bim`.`z view krav {project}` WHERE {phase} = 1 {(string.IsNullOrEmpty(disciplineCode) ? "" : $"AND DisiplinKode = '{disciplineCode}'")} GROUP BY PropertyName");
             return parameters.Select(x =>
             {
                 return new Parameter

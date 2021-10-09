@@ -1,17 +1,28 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
+<MudLayout>
+     <MudAppBar Fixed="false" Dense="true">
+        <MudText Typo="Typo.h6">Bim Krav</MudText>
+        <MudSpacer />
+        <MudTooltip Text="API">
+            <MudIconButton Icon="@Icons.Filled.Api" Color="Color.Inherit" OnClick="@(() => NavigateToApi())" />
+        </MudTooltip>
+    </MudAppBar>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </div>
-    </div>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private void NavigateToApi()
+    {
+        NavigationManager.NavigateTo("/swagger", true);
+    }
+}

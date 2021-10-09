@@ -6,7 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using MudBlazor.Services;
 using System.Threading.Tasks;
+using BimKrav.Client.Services;
+using Polly;
 
 namespace BimKrav.Client
 {
@@ -17,7 +20,23 @@ namespace BimKrav.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient(ConsumedApis.BimKrav, client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
+            })
+                .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(10)
+                }));
+
+            builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);
+            builder.Services.AddHttpClient<IDisciplineService, DisciplineService>(ConsumedApis.BimKrav);
+            builder.Services.AddHttpClient<IPhaseService, PhaseService>(ConsumedApis.BimKrav);
+            builder.Services.AddHttpClient<IParameterService, ParameterService>(ConsumedApis.BimKrav);
+
+            builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();
         }
