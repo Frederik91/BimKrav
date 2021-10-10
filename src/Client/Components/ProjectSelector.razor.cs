@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace BimKrav.Client.Components
 {
@@ -12,6 +14,8 @@ namespace BimKrav.Client.Components
         private string? _selectedProject;
 
         [Inject] public IProjectService ProjectService { get; set; } = null!;
+        [Inject] public ISnackbar Snackbar { get; set; } = null!;
+        [Inject] public ILogger<ProjectSelector> Logger { get; set; } = null!;
 
         [Parameter]
         public string? SelectedProject
@@ -31,8 +35,17 @@ namespace BimKrav.Client.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            var projects = await ProjectService.GetProjects();
-            AvailableProjects = projects.Select(x => x.Name).ToList();
+            try
+            {
+                var projects = await ProjectService.GetProjects();
+                AvailableProjects = projects.Select(x => x.Name).ToList();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Failed to load projects", e);
+                Snackbar.Add("Failed to load projects", Severity.Error);
+            }
+
         }
 
         protected Task<IEnumerable<string>> SearchProject(string searchText)

@@ -1,6 +1,6 @@
 ﻿namespace BimKrav.Shared.Models
 {
-    public class Project
+    public record Project
     {
         public string Name { get; set; }
     }

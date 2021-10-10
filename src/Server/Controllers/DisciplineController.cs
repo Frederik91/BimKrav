@@ -34,7 +34,7 @@ namespace BimKrav.Server.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message, e);
+                _logger.LogError("Failed to get disciplines", e);
                 return Problem(e.Message);
             }
         }

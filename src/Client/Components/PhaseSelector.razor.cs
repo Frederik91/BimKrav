@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace BimKrav.Client.Components
 {
@@ -11,7 +13,9 @@ namespace BimKrav.Client.Components
     {
         private string? _selectedPhase;
 
+        [Inject] public ISnackbar Snackbar { get; set; } = null!;
         [Inject] public IPhaseService PhaseService { get; set; } = null!;
+        [Inject] public ILogger<PhaseSelectorBase> Logger { get; set; } = null!;
 
         [Parameter]
         public string? SelectedPhase
@@ -31,7 +35,16 @@ namespace BimKrav.Client.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            AvailablePhases = await PhaseService.GetPhases();
+            try
+            {
+                AvailablePhases = await PhaseService.GetPhases();
+            }
+            catch (Exception e)
+            {
+                Snackbar.Add("Failed to get phases");
+                Logger.LogError("Failed to get phases", e);
+            }
+
         }
 
         protected Task<IEnumerable<string>> SearchPhase(string searchText)

@@ -4,11 +4,13 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>5437d612-aab0-4f88-b9c8-6cff9251188c</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21452.15" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21452.15" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="6.0.0-rc.1.21452.15" />
 		<PackageReference Include="MudBlazor" Version="5.1.5" />
 		<PackageReference Include="System.Net.Http.Json" Version="6.0.0-rc.1.21451.13" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0-rc.1.21451.13" />

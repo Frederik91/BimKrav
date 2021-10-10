@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BimKrav.Shared.Models
 {
-    public class Parameter
+    public record Parameter
     {
         public string PropertyName { get; set; }
         public List<string> Categories { get; set; }

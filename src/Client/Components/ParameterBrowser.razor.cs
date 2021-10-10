@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace BimKrav.Client.Components
 {
@@ -79,7 +80,11 @@ namespace BimKrav.Client.Components
             IsLoading = true;
             try
             {
-                Parameters = await ParameterService.GetParameters(Project, Phase, Discipline);               
+                Parameters = await ParameterService.GetParameters(Project, Phase, Discipline);
+            }
+            catch (AccessTokenNotAvailableException accessException)
+            {
+                accessException.Redirect();
             }
             catch (Exception)
             {

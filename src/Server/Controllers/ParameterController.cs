@@ -7,11 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using BimKrav.Server.Services;
 using BimKrav.Shared.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace BimKrav.Server.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Member")]
     [Route("api/[controller]")]
     public class ParameterController : Controller
     {
@@ -43,7 +46,7 @@ namespace BimKrav.Server.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message, e);
+                _logger.LogError("Failed to get parameters", e);
                 return Problem(e.Message);
             }
         }

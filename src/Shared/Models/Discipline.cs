@@ -1,6 +1,6 @@
 ﻿namespace BimKrav.Shared.Models
 {
-    public class Discipline
+    public record Discipline
     {
         public int Id { get; set; }
         public string Name { get; set; }

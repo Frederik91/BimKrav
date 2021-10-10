@@ -9,6 +9,7 @@ using System.Text;
 using MudBlazor.Services;
 using System.Threading.Tasks;
 using BimKrav.Client.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Polly;
 
 namespace BimKrav.Client
@@ -24,12 +25,21 @@ namespace BimKrav.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
             })
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
                 .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.WaitAndRetryAsync(new[]
                 {
                     TimeSpan.FromSeconds(1),
                     TimeSpan.FromSeconds(5),
                     TimeSpan.FromSeconds(10)
                 }));
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient(ConsumedApis.BimKrav));
+
+            builder.Services.AddMsalAuthentication(options =>
+            {
+                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("AzureAd")["DefaultAccessTokenScope"]);
+                options.ProviderOptions.LoginMode = "redirect";
+            });
 
             builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);
             builder.Services.AddHttpClient<IDisciplineService, DisciplineService>(ConsumedApis.BimKrav);

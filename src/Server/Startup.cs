@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using BimKrav.Server.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
 using MySqlConnector;
 
 namespace BimKrav.Server
@@ -32,6 +34,17 @@ namespace BimKrav.Server
             
             services.AddTransient(_ => new MySqlConnection(Configuration["ConnectionStrings:DbConnection"]));
             services.AddAutoMapper(typeof(Startup));
+
+            var azureAd = Configuration.GetSection("AzureAd");
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+            services.Configure<JwtBearerOptions>(
+                JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters.NameClaimType = "name";
+
+                });
+
+
             services.AddTransient<IMySqlDbConnection, MySqlDbConnection>();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IDisciplineService, DisciplineService>();
@@ -53,6 +66,8 @@ namespace BimKrav.Server
                 app.UseHsts();
             }
 
+
+
             app.UseSwagger(options => { options.RouteTemplate = "swagger/{documentName}/swagger.json"; });
             app.UseSwaggerUI();
 
@@ -61,6 +76,9 @@ namespace BimKrav.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

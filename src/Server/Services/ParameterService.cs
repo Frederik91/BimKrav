@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BimKrav.Server.Models.QueryResults;
 using BimKrav.Shared.Models;
 
 namespace BimKrav.Server.Services

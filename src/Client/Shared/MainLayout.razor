@@ -8,9 +8,10 @@
 <MudLayout>
      <MudAppBar Fixed="false" Dense="true">
         <MudText Typo="Typo.h6">Bim Krav</MudText>
-        <MudSpacer />
+         <MudSpacer />
+         <LoginDisplay />
         <MudTooltip Text="API">
-            <MudIconButton Icon="@Icons.Filled.Api" Color="Color.Inherit" OnClick="@(() => NavigateToApi())" />
+            <MudIconButton Icon="@Icons.Filled.Api" Color="Color.Inherit" OnClick="@(NavigateToApi)" />
         </MudTooltip>
     </MudAppBar>
     <MudMainContent>
