@@ -35,8 +35,8 @@ namespace BimKrav.Server
             services.AddTransient(_ => new MySqlConnection(Configuration["ConnectionStrings:DbConnection"]));
             services.AddAutoMapper(typeof(Startup));
 
-            var azureAd = Configuration.GetSection("AzureAd");
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+            var azureAd = Configuration.GetSection("AzureAdB2C");
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
             services.Configure<JwtBearerOptions>(
                 JwtBearerDefaults.AuthenticationScheme, options =>
                 {

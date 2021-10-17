@@ -45,7 +45,6 @@ namespace BimKrav.Client.Components
                 Logger.LogError("Failed to load projects", e);
                 Snackbar.Add("Failed to load projects", Severity.Error);
             }
-
         }
 
         protected Task<IEnumerable<string>> SearchProject(string searchText)

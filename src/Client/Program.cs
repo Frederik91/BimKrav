@@ -36,8 +36,8 @@ namespace BimKrav.Client
 
             builder.Services.AddMsalAuthentication(options =>
             {
-                builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("AzureAd")["DefaultAccessTokenScope"]);
+                builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
+                options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetSection("AzureAdB2C")["DefaultAccessTokenScope"]);
                 options.ProviderOptions.LoginMode = "redirect";
             });
 

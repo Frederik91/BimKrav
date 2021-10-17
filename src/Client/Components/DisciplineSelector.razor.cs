@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace BimKrav.Client.Components
 {
@@ -12,6 +14,8 @@ namespace BimKrav.Client.Components
         private string? _selectedDiscipline;
 
         [Inject] public IDisciplineService DisciplineService { get; set; } = null!;
+        [Inject] public ISnackbar Snackbar { get; set; } = null!;
+        [Inject] public ILogger<ProjectSelector> Logger { get; set; } = null!;
 
         [Parameter]
         public string? SelectedDiscipline
@@ -31,8 +35,17 @@ namespace BimKrav.Client.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            var disciplines = await DisciplineService.GetDisciplines();
-            AvailableDisciplines = disciplines.Select(x => x.Code).ToList();
+            try
+            {
+                var disciplines = await DisciplineService.GetDisciplines();
+                AvailableDisciplines = disciplines.Select(x => x.Code).ToList();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Failed to load disciplines", e);
+                Snackbar.Add("Failed to load disciplines", Severity.Error);
+            }
+
         }
 
         protected Task<IEnumerable<string>> SearchDiscipline(string searchText)
