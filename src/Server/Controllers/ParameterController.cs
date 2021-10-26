@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 namespace BimKrav.Server.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Member")]
+    [Authorize(Policy = "snr")]
     [Route("api/[controller]")]
     public class ParameterController : Controller
     {
@@ -32,6 +32,8 @@ namespace BimKrav.Server.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public Task<IActionResult> GetProjectPhaseParameters(string project, string phase)
         {
+            var user = User;
+            var claims = User.Claims;
             return GetProjectPhaseParameters(project, phase, string.Empty);
         }
 

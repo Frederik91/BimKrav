@@ -37,6 +37,11 @@ namespace BimKrav.Server
 
             var azureAd = Configuration.GetSection("AzureAdB2C");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(azureAd);
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("snr", x => 
+                    x.RequireAssertion(y => y.User.HasClaim(z => z.Properties.Any())));
+            });
             services.Configure<JwtBearerOptions>(
                 JwtBearerDefaults.AuthenticationScheme, options =>
                 {

@@ -86,7 +86,7 @@ namespace BimKrav.Client.Components
             {
                 accessException.Redirect();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Snackbar.Add("Failed to get parameters", Severity.Error);
             }
