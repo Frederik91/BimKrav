@@ -53,7 +53,12 @@ namespace BimKrav.Client.Components
         {
             if (string.IsNullOrWhiteSpace(searchText) || AvailablePhases is null)
                 return Task.FromResult(AvailablePhases as IEnumerable<Phase> ?? new List<Phase>());
-            return Task.FromResult(AvailablePhases.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
+
+            var phases = AvailablePhases.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (phases.Count == 1 && phases.First().Name == searchText && phases.First().Id == SelectedPhaseId)
+                phases = AvailablePhases;
+
+            return Task.FromResult(phases as IEnumerable<Phase>);
         }
 
         async void UpdateSelectedPhase()

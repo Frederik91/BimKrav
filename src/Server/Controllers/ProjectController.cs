@@ -34,7 +34,7 @@ public class ProjectController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message, e);
+            _logger.LogError("Failed to get projects. {exception}", e);
             return Problem(e.Message);
         }
     }

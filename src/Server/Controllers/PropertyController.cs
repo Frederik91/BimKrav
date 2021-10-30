@@ -21,14 +21,14 @@ public class PropertyController : Controller
         _parameterService = parameterService;
     }
 
-    [HttpGet("{project}/{phase}")]
+    [HttpGet]
     [ProducesResponseType(typeof(Property), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetProjectPhaseProperties(int project, int phase, int? disciplineId)
+    public async Task<IActionResult> GetProjectPhaseProperties(int? projectId, int? phaseId, int? disciplineId)
     {
         try
         {
-            return Ok(await _parameterService.GetPropertiesInProjectByPhase(project, phase, disciplineId));
+            return Ok(await _parameterService.GetProperties(projectId, phaseId, disciplineId));
         }
         catch (Exception e)
         {

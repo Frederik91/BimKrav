@@ -22,11 +22,29 @@ public class PropertyService : IPropertyService
         _mapper = mapper;
     }
 
-    public async Task<List<Property>> GetPropertiesInProjectByPhase(int projectId, int phaseId, int? disciplineId)
+    public async Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId)
     {
-        var phasePropertyIds = await GetPhasePropertyIds(phaseId);
-        var projectPropertyIds = await _context.ProjectProperties.Where(x => x.ProjectId == projectId && x.ProjectId != null).Select(x => x.PropertyId ?? 0).ToListAsync();
-        var propertyIds = phasePropertyIds.Intersect(projectPropertyIds).ToList();
+        List<int>? projectPropertyIds = null;
+        if (projectId != null)
+        {
+            projectPropertyIds = await _context.ProjectProperties.Where(x => x.ProjectId == projectId && x.ProjectId != null).Select(x => x.PropertyId ?? 0).ToListAsync();
+        }
+
+        List<int>? phasePropertyIds = null;
+        if (phaseId != null)
+        {
+            phasePropertyIds = await GetPhasePropertyIds(phaseId.Value);
+        }
+
+        List<int> propertyIds;
+        if (phasePropertyIds != null && projectPropertyIds != null)
+            propertyIds = phasePropertyIds.Intersect(projectPropertyIds).ToList();
+        else if (phasePropertyIds != null)
+            propertyIds = phasePropertyIds;
+        else if (projectPropertyIds != null)
+            propertyIds = projectPropertyIds;
+        else
+            propertyIds = await _context.Properties.Select(x => x.Id).ToListAsync();
 
         var propertyTbls = await GeneratePropertyQuery(propertyIds, disciplineId);
 
@@ -57,7 +75,6 @@ public class PropertyService : IPropertyService
 
     private async Task<List<PropertyTbl>> GeneratePropertyQuery(List<int> propertyIds, int? disciplineId)
     {
-
         if (disciplineId is null)
         {
             return await _context.Properties

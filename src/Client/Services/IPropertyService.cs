@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace BimKrav.Client.Services
 {
-    public interface IParameterService
+    public interface IPropertyService
     {
-        Task<List<Property>> GetParameters(int projectId, int phaseId, int? disciplineId);
+        Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId);
     }
 }

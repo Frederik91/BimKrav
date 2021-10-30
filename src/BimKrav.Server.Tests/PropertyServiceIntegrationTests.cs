@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using BimKrav.Server.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace BimKrav.Server.Tests
 {
@@ -16,21 +17,24 @@ namespace BimKrav.Server.Tests
             _factory = factory;
         }
 
-        [Fact]
-        public async Task GetProjectParameters()
+        [Theory]
+        [InlineData(null, null, null)]
+        [InlineData(1, null, null)]
+        [InlineData(1, 3, null)]
+        [InlineData(1, 3, 3)]
+        [InlineData(null, 3, 3)]
+        [InlineData(null, null, 3)]
+        [InlineData(null, 3, null)]
+        public async Task GetParameters(int? projectId, int? phaseId, int? disciplineId)
         {
             var scope = _factory.Services.CreateScope();
             var cut = scope.ServiceProvider.GetService<IPropertyService>();
-            var noDisciplineProperties = await cut.GetPropertiesInProjectByPhase(1, 4, null);
-            var properties = await cut.GetPropertiesInProjectByPhase(1, 4, 3);
+            var properties = await cut.GetProperties(projectId, phaseId, disciplineId);
 
             Assert.NotNull(properties);
             Assert.NotEmpty(properties);
-            var noDisciplineProperty = noDisciplineProperties.First();
             var property = properties.First();
-            Assert.NotEmpty(noDisciplineProperty.Categories);
             Assert.NotEmpty(property.Categories);
-            Assert.True(noDisciplineProperty.Categories.Count > property.Categories.Count);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace BimKrav.Client
             builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);
             builder.Services.AddHttpClient<IDisciplineService, DisciplineService>(ConsumedApis.BimKrav);
             builder.Services.AddHttpClient<IPhaseService, PhaseService>(ConsumedApis.BimKrav);
-            builder.Services.AddHttpClient<IParameterService, ParameterService>(ConsumedApis.BimKrav);
+            builder.Services.AddHttpClient<IPropertyService, PropertyService>(ConsumedApis.BimKrav);
 
             builder.Services.AddMudServices();
 

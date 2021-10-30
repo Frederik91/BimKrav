@@ -1,5 +1,5 @@
 ﻿
-@inherits ParameterBrowserBase
+@inherits PropertyBrowserBase
 
 <MudGrid>
     <MudItem xs=4><ProjectSelector @bind-SelectedProjectId="@ProjectId"></ProjectSelector></MudItem>
@@ -9,13 +9,13 @@
 
 
 <MudGrid>
-    <MudItem xs="@(SelectedParameter is null ? 12 : 8)">
+    <MudItem xs="@(SelectedProperty is null ? 12 : 8)">
     
-        <MudTable Items="@Parameters" Dense="true" Hover="true" @bind-SelectedItem="@SelectedParameter" Breakpoint="Breakpoint.Sm" Loading="@IsLoading" LoadingProgressColor="Color.Info" Filter="new Func<Property,bool>(x => Filter(x))">
+        <MudTable Items="@Properties" Dense="true" Hover="true" @bind-SelectedItem="@SelectedProperty" Breakpoint="Breakpoint.Sm" Loading="@IsLoading" LoadingProgressColor="Color.Info" Filter="new Func<Property,bool>(x => Filter(x))">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Parameters</MudText>
                     <MudSpacer />
-                <MudTextField @bind-Value="ParameterSearchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudTextField @bind-Value="PropertySearchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
    
                 </ToolBarContent>
             <HeaderContent>
@@ -29,7 +29,7 @@
                 <MudTd DataLabel="Name">@context?.PropertyName</MudTd>
                 <MudTd DataLabel="Type">@context?.RevitPropertyType</MudTd>
                 <MudTd DataLabel="Level">@context?.Level</MudTd>
-                @if (SelectedParameter is null)
+                @if (SelectedProperty is null)
                 {
                     <MudTd DataLabel="GUID">@context?.PropertyGUID</MudTd>
                 }
@@ -45,14 +45,14 @@
             </RowTemplate>
         </MudTable>
     </MudItem>
-    @if (SelectedParameter != null)
+    @if (SelectedProperty != null)
     {
             <MudItem xs="4">
                 <MudPaper>
                     <MudContainer Class="d-flex flex-column justify-center">
                         <MudText Typo="Typo.h5">Categories</MudText>
                         <MudList Dense="true" >
-                        @foreach (var category in SelectedParameter.Categories ?? new List<string>())
+                        @foreach (var category in SelectedProperty.Categories ?? new List<string>())
                         {
                                 <MudListItem>@category</MudListItem>
                         }

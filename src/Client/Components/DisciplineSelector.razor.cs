@@ -51,7 +51,12 @@ namespace BimKrav.Client.Components
         {
             if (string.IsNullOrWhiteSpace(searchText) || AvailableDisciplines is null)
                 return Task.FromResult(AvailableDisciplines as IEnumerable<Discipline> ?? new List<Discipline>());
-            return Task.FromResult(AvailableDisciplines.Where(x => x.Name?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
+
+            var disciplines = AvailableDisciplines.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (disciplines.Count == 1 && disciplines.First().Name == searchText && disciplines.First().Id == SelectedDisciplineId)
+                disciplines = AvailableDisciplines;
+
+            return Task.FromResult(disciplines as IEnumerable<Discipline>);
         }
 
         async void UpdateSelectedDiscipline()

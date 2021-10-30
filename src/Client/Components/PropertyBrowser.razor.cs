@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace BimKrav.Client.Components
 {
-    public class ParameterBrowserBase : ComponentBase
+    public class PropertyBrowserBase : ComponentBase
     {
         private int? _projectId;
         private int? _phaseId;
         private int? _disciplineId;
-        private Property? _selectedParameter;
+        private Property? _selectedProperty;
 
-        [Inject] public IParameterService ParameterService { get; set; } = null!;
+        [Inject] public IPropertyService PropertyService { get; set; } = null!;
         [Inject] public ISnackbar Snackbar { get; set; } = null!;
 
         [Parameter]
@@ -40,30 +40,37 @@ namespace BimKrav.Client.Components
             set { _disciplineId = value; RefreshParameters(); }
         }
 
-        public string? ParameterSearchText { get; set; }
+        public string? PropertySearchText { get; set; }
 
         protected bool IsLoading { get; set; }
 
-        protected List<Property>? Parameters { get; set; }
-        protected Property? SelectedParameter
+        protected List<Property>? Properties { get; set; }
+        protected Property? SelectedProperty
         {
-            get => _selectedParameter;
-            set { _selectedParameter = value; StateHasChanged(); }
+            get => _selectedProperty;
+            set { _selectedProperty = value; StateHasChanged(); }
+        }
+
+        protected override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+                RefreshParameters();
+            return Task.CompletedTask;
         }
 
         protected bool Filter(Property parameter)
         {
-            if (string.IsNullOrWhiteSpace(ParameterSearchText))
+            if (string.IsNullOrWhiteSpace(PropertySearchText))
                 return true;
-            if (parameter.PropertyName.Contains(ParameterSearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.PropertyName.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.RevitPropertyType.Contains(ParameterSearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.RevitPropertyType.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.PropertyGUID.ToString().Contains(ParameterSearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.PropertyGUID.ToString().Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.Level.Contains(ParameterSearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.Level.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.Categories.Any(x => x.Contains(ParameterSearchText, StringComparison.InvariantCultureIgnoreCase)))
+            if (parameter.Categories.Any(x => x.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase)))
                 return true;
 
             return false;
@@ -71,15 +78,10 @@ namespace BimKrav.Client.Components
 
         protected async void RefreshParameters()
         {
-            if (ProjectId is null || PhaseId is null)
-            {
-                Parameters = null;
-                return;
-            }
             IsLoading = true;
             try
             {
-                Parameters = await ParameterService.GetParameters(ProjectId.Value, PhaseId.Value, DisciplineId);               
+                Properties = await PropertyService.GetProperties(ProjectId, PhaseId, DisciplineId);
             }
             catch (Exception)
             {

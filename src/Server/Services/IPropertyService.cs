@@ -6,5 +6,5 @@ namespace BimKrav.Server.Services;
 
 public interface IPropertyService
 {
-    Task<List<Property>> GetPropertiesInProjectByPhase(int projectId, int phaseId, int? disciplineId);
+    Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId);
 }
