@@ -4,18 +4,24 @@ using AutoMapper;
 using BimKrav.Server.Models.QueryResults;
 using BimKrav.Shared.Models;
 
-namespace BimKrav.Server
-{
-    public class AutoMapperProfile : Profile
-    {
-        public AutoMapperProfile()
-        {
-            CreateMap<ProjectParametersByPhaseAndDisciplineResult, Parameter>().ForMember(x => x.Categories, x => x.MapFrom(y => GetCategoryList(y)));
-        }
+namespace BimKrav.Server;
 
-        private static List<string> GetCategoryList(ProjectParametersByPhaseAndDisciplineResult y)
-        {
-            return y.Categories.Split(',').Distinct().ToList();
-        }
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
+    {
+        CreateMap<ProjectPropertiesByPhaseAndDisciplineResult, Property>().ForMember(x => x.Categories, x => x.MapFrom(y => GetCategoryList(y)));
+        CreateMap<ProjectTbl, Project>();
+        CreateMap<DisciplineTbl, Discipline>();
+        CreateMap<PropertyTbl, Property>()
+            .ForMember(x => x.Level, x => x.MapFrom(y => y.TypeInstance))
+            .ForMember(x => x.Categories, x => x.MapFrom(y => y.RevitCategoryProperties.Select(z => z.RevitCategory.Name)));
+
+        CreateMap<PhaseTbl, Phase>();
+    }
+
+    private static List<string> GetCategoryList(ProjectPropertiesByPhaseAndDisciplineResult y)
+    {
+        return y.Categories.Split(',').Distinct().ToList();
     }
 }

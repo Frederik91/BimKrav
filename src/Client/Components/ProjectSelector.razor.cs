@@ -4,47 +4,63 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BimKrav.Shared.Models;
 
 namespace BimKrav.Client.Components
 {
     public class ProjectSelectorBase : ComponentBase
     {
-        private string? _selectedProject;
+        private Project? _selectedProject;
 
         [Inject] public IProjectService ProjectService { get; set; } = null!;
 
         [Parameter]
-        public string? SelectedProject
+        public Project? SelectedProject
         {
             get => _selectedProject;
             set
             {
                 if (_selectedProject == value)
                     return;
-                _selectedProject = value; UpdateSelectedProject();
+                _selectedProject = value;
+                SelectedProjectId = value?.Id;
+                UpdateSelectedProject();
             }
         }
-        protected List<string>? AvailableProjects {  get; set; }
 
         [Parameter]
-        public EventCallback<string?> SelectedProjectChanged { get; set; }
+        public int? SelectedProjectId { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+        protected List<Project>? AvailableProjects {  get; set; }
+
+        [Parameter]
+        public EventCallback<Project?> SelectedProjectChanged { get; set; }
+
+        [Parameter]
+        public EventCallback<int?> SelectedProjectIdChanged { get; set; }
+
+        protected override async Task OnInitializedAsync()
         {
-            var projects = await ProjectService.GetProjects();
-            AvailableProjects = projects.Select(x => x.Name).ToList();
+            AvailableProjects = await ProjectService.GetProjects();
         }
 
-        protected Task<IEnumerable<string>> SearchProject(string searchText)
+        protected override void OnParametersSet()
+        {
+            if (SelectedProject?.Id != SelectedProjectId)
+                SelectedProject = AvailableProjects?.FirstOrDefault(x => x.Id == SelectedProjectId);
+        }
+
+        protected Task<IEnumerable<Project>> SearchProject(string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText) || AvailableProjects is null)
-                return Task.FromResult(AvailableProjects as IEnumerable<string> ?? new List<string>());
-            return Task.FromResult(AvailableProjects.Where(x => x?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
+                return Task.FromResult(AvailableProjects as IEnumerable<Project> ?? new List<Project>());
+            return Task.FromResult(AvailableProjects.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
         }
 
         async void UpdateSelectedProject()
         {
             await SelectedProjectChanged.InvokeAsync(SelectedProject);
+            await SelectedProjectIdChanged.InvokeAsync(SelectedProject?.Id);
         }
 
     }

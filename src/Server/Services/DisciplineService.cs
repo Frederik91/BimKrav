@@ -1,22 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
+using BimKrav.Server.Tables;
 using BimKrav.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BimKrav.Server.Services
+namespace BimKrav.Server.Services;
+
+public class DisciplineService : IDisciplineService
 {
-    public class DisciplineService : IDisciplineService
+    private readonly BimKravDbContext _context;
+    private readonly IMapper _mapper;
+
+    public DisciplineService(BimKravDbContext context, IMapper mapper)
     {
-        private readonly IMySqlDbConnection _connection;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public DisciplineService(IMySqlDbConnection connection)
-        {
-            _connection = connection;
-        }
-
-        public async Task<List<Discipline>> GetAllDisciplines()
-        {
-            var disciplines = await _connection.ExecuteQuery<Discipline>("SELECT ID_Dicipline as Id, DiciplineName as Name, DisiplinKode as Code FROM bim.tbldicipline;");
-            return disciplines;
-        }
+    public async Task<List<Discipline>> GetAllDisciplines()
+    {
+        var disciplineTbls = await _context.Discplines.ToListAsync();
+        return _mapper.Map<List<Discipline>>(disciplineTbls);
     }
 }

@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using BimKrav.Shared.Models;
 
-namespace BimKrav.Server.Services
+namespace BimKrav.Server.Services;
+
+public interface IDisciplineService
 {
-    public interface IDisciplineService
-    {
-        Task<List<Discipline>> GetAllDisciplines();
-    }
+    Task<List<Discipline>> GetAllDisciplines();
 }

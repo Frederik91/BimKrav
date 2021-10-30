@@ -11,47 +11,47 @@ namespace BimKrav.Client.Components
 {
     public class ParameterBrowserBase : ComponentBase
     {
-        private string? _project;
-        private string? _phase;
-        private string? _discipline;
-        private Parameter? _selectedParameter;
+        private int? _projectId;
+        private int? _phaseId;
+        private int? _disciplineId;
+        private Property? _selectedParameter;
 
         [Inject] public IParameterService ParameterService { get; set; } = null!;
         [Inject] public ISnackbar Snackbar { get; set; } = null!;
 
         [Parameter]
-        public string? Project
+        public int? ProjectId
         {
-            get => _project;
-            set { _project = value; RefreshParameters(); }
+            get => _projectId;
+            set { _projectId = value; RefreshParameters(); }
         }
 
         [Parameter]
-        public string? Phase
+        public int? PhaseId
         {
-            get => _phase;
-            set { _phase = value; RefreshParameters(); }
+            get => _phaseId;
+            set { _phaseId = value; RefreshParameters(); }
         }
 
         [Parameter]
-        public string? Discipline
+        public int? DisciplineId
         {
-            get => _discipline;
-            set { _discipline = value; RefreshParameters(); }
+            get => _disciplineId;
+            set { _disciplineId = value; RefreshParameters(); }
         }
 
         public string? ParameterSearchText { get; set; }
 
         protected bool IsLoading { get; set; }
 
-        protected List<Parameter>? Parameters { get; set; }
-        protected Parameter? SelectedParameter
+        protected List<Property>? Parameters { get; set; }
+        protected Property? SelectedParameter
         {
             get => _selectedParameter;
             set { _selectedParameter = value; StateHasChanged(); }
         }
 
-        protected bool Filter(Parameter parameter)
+        protected bool Filter(Property parameter)
         {
             if (string.IsNullOrWhiteSpace(ParameterSearchText))
                 return true;
@@ -71,7 +71,7 @@ namespace BimKrav.Client.Components
 
         protected async void RefreshParameters()
         {
-            if (string.IsNullOrEmpty(Project) || string.IsNullOrEmpty(Phase))
+            if (ProjectId is null || PhaseId is null)
             {
                 Parameters = null;
                 return;
@@ -79,7 +79,7 @@ namespace BimKrav.Client.Components
             IsLoading = true;
             try
             {
-                Parameters = await ParameterService.GetParameters(Project, Phase, Discipline);               
+                Parameters = await ParameterService.GetParameters(ProjectId.Value, PhaseId.Value, DisciplineId);               
             }
             catch (Exception)
             {

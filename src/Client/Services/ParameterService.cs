@@ -15,9 +15,12 @@ namespace BimKrav.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Parameter>> GetParameters(string project, string phase, string? discipline)
+        public async Task<List<Property>> GetParameters(int projectId, int phaseId, int? disciplineId)
         {
-            return await _httpClient.GetFromJsonAsync<List<Parameter>>($"Parameter/{project}/{phase}/{discipline ?? string.Empty}") ?? new List<Parameter>();
+            var disciplineQuery = "";
+            if (disciplineId is not null)
+                disciplineQuery = $"?disciplineId={disciplineId}";
+            return await _httpClient.GetFromJsonAsync<List<Property>>($"Property/{projectId}/{phaseId}{disciplineQuery}") ?? new List<Property>();
         }
     }
 }

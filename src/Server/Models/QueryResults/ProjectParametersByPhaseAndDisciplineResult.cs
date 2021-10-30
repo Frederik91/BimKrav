@@ -1,11 +1,10 @@
-﻿namespace BimKrav.Server.Models.QueryResults
+﻿namespace BimKrav.Server.Models.QueryResults;
+
+public class ProjectPropertiesByPhaseAndDisciplineResult
 {
-    public class ProjectParametersByPhaseAndDisciplineResult
-    {
-        public string PropertyName { get; set; }
-        public string Categories { get; set; }
-        public string Level { get; set; }
-        public string RevitPropertyType { get; set; }
-        public byte[] PropertyGUID { get; set; }
-    }
+    public string PropertyName { get; set; }
+    public string Categories { get; set; }
+    public string Level { get; set; }
+    public string RevitPropertyType { get; set; }
+    public byte[] PropertyGUID { get; set; }
 }

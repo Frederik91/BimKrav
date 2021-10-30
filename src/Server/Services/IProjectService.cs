@@ -2,10 +2,9 @@
 using BimKrav.Shared.Models;
 using System.Threading.Tasks;
 
-namespace BimKrav.Server.Services
+namespace BimKrav.Server.Services;
+
+public interface IProjectService
 {
-    public interface IProjectService
-    {
-        Task<List<Project>> GetAllProjects();
-    }
+    Task<List<Project>> GetAllProjects();
 }

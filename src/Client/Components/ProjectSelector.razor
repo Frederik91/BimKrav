@@ -1,3 +1,3 @@
 ﻿@inherits ProjectSelectorBase
 
-<MudAutocomplete T="string" Label="Projects" @bind-Value="SelectedProject" SearchFunc="@(m => SearchProject(m))" MaxItems=null />
+<MudAutocomplete T="Project" Label="Projects" @bind-Value="SelectedProject" SearchFunc="@(m => SearchProject(m))"  ToStringFunc="@(x => x.Name)"  MaxItems=null  Margin="Margin.Dense" Dense="true" />

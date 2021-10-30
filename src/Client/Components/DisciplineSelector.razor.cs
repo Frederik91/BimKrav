@@ -4,17 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BimKrav.Shared.Models;
 
 namespace BimKrav.Client.Components
 {
     public class DisciplineSelectorBase : ComponentBase
     {
-        private string? _selectedDiscipline;
+        private Discipline? _selectedDiscipline;
 
         [Inject] public IDisciplineService DisciplineService { get; set; } = null!;
 
         [Parameter]
-        public string? SelectedDiscipline
+        public Discipline? SelectedDiscipline
         {
             get => _selectedDiscipline;
             set
@@ -24,27 +25,39 @@ namespace BimKrav.Client.Components
                 _selectedDiscipline = value; UpdateSelectedDiscipline();
             }
         }
-        protected List<string>? AvailableDisciplines { get; set; }
 
         [Parameter]
-        public EventCallback<string?> SelectedDisciplineChanged { get; set; }
+        public int? SelectedDisciplineId { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+        protected List<Discipline>? AvailableDisciplines { get; set; }
+
+        [Parameter]
+        public EventCallback<Discipline?> SelectedDisciplineChanged { get; set; }
+
+        [Parameter]
+        public EventCallback<int?> SelectedDisciplineIdChanged { get; set; }
+
+        protected override async Task OnInitializedAsync()
         {
-            var disciplines = await DisciplineService.GetDisciplines();
-            AvailableDisciplines = disciplines.Select(x => x.Code).ToList();
+            AvailableDisciplines = await DisciplineService.GetDisciplines();
         }
 
-        protected Task<IEnumerable<string>> SearchDiscipline(string searchText)
+        protected override void OnParametersSet()
+        {
+            SelectedDiscipline = AvailableDisciplines?.FirstOrDefault(x => x.Id == SelectedDisciplineId);
+        }
+
+        protected Task<IEnumerable<Discipline>> SearchDiscipline(string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText) || AvailableDisciplines is null)
-                return Task.FromResult(AvailableDisciplines as IEnumerable<string> ?? new List<string>());
-            return Task.FromResult(AvailableDisciplines.Where(x => x?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
+                return Task.FromResult(AvailableDisciplines as IEnumerable<Discipline> ?? new List<Discipline>());
+            return Task.FromResult(AvailableDisciplines.Where(x => x.Name?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true));
         }
 
         async void UpdateSelectedDiscipline()
         {
             await SelectedDisciplineChanged.InvokeAsync(SelectedDiscipline);
+            await SelectedDisciplineIdChanged.InvokeAsync(SelectedDiscipline?.Id);
         }
     }
 }

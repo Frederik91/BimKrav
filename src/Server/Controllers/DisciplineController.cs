@@ -8,35 +8,34 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BimKrav.Server.Controllers
+namespace BimKrav.Server.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class DisciplineController : Controller
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DisciplineController : Controller
+    private readonly ILogger<DisciplineController> _logger;
+    private readonly IDisciplineService _disciplineService;
+
+    public DisciplineController(ILogger<DisciplineController> logger, IDisciplineService disciplineService)
     {
-        private readonly ILogger<DisciplineController> _logger;
-        private readonly IDisciplineService _disciplineService;
+        _logger = logger;
+        _disciplineService = disciplineService;
+    }
 
-        public DisciplineController(ILogger<DisciplineController> logger, IDisciplineService disciplineService)
+    [HttpGet]
+    [ProducesResponseType(typeof(Discipline), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get()
+    {
+        try
         {
-            _logger = logger;
-            _disciplineService = disciplineService;
+            return Ok(await _disciplineService.GetAllDisciplines());
         }
-
-        [HttpGet]
-        [ProducesResponseType(typeof(Discipline), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        catch (Exception e)
         {
-            try
-            {
-                return Ok(await _disciplineService.GetAllDisciplines());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return Problem(e.Message);
-            }
+            _logger.LogError("Failed to get disciplines. {exception}", e);
+            return Problem(e.Message);
         }
     }
 }

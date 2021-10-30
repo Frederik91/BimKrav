@@ -2,16 +2,16 @@
 @inherits ParameterBrowserBase
 
 <MudGrid>
-    <MudItem xs=4><ProjectSelector @bind-SelectedProject="@Project"></ProjectSelector></MudItem>
-    <MudItem xs=4><PhaseSelector @bind-SelectedPhase="@Phase"></PhaseSelector></MudItem>
-    <MudItem xs=4><DisciplineSelector @bind-SelectedDiscipline="@Discipline"></DisciplineSelector></MudItem>
+    <MudItem xs=4><ProjectSelector @bind-SelectedProjectId="@ProjectId"></ProjectSelector></MudItem>
+    <MudItem xs=4><PhaseSelector @bind-SelectedPhaseId="@PhaseId"></PhaseSelector></MudItem>
+    <MudItem xs=4><DisciplineSelector @bind-SelectedDisciplineId="@DisciplineId"></DisciplineSelector></MudItem>
 </MudGrid>
 
 
 <MudGrid>
     <MudItem xs="@(SelectedParameter is null ? 12 : 8)">
     
-        <MudTable Items="@Parameters" Dense="true" Hover="true" @bind-SelectedItem="@SelectedParameter" Breakpoint="Breakpoint.Sm" Loading="@IsLoading" LoadingProgressColor="Color.Info" Filter="new Func<Parameter,bool>(x => Filter(x))">
+        <MudTable Items="@Parameters" Dense="true" Hover="true" @bind-SelectedItem="@SelectedParameter" Breakpoint="Breakpoint.Sm" Loading="@IsLoading" LoadingProgressColor="Color.Info" Filter="new Func<Property,bool>(x => Filter(x))">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Parameters</MudText>
                     <MudSpacer />
@@ -19,11 +19,11 @@
    
                 </ToolBarContent>
             <HeaderContent>
-                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Parameter, object>(x=>x.PropertyName)">Name</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.RevitPropertyType)">Type</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.Level)">Level</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.PropertyGUID)">GUID</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<Parameter, object>(x=>x.Categories.Count)">Categories</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Property, object>(x=>x.PropertyName)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x=>x.RevitPropertyType)">Type</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x=>x.Level)">Level</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x=>x.PropertyGUID)">GUID</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x=>x.Categories.Count)">Categories</MudTableSortLabel></MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context?.PropertyName</MudTd>

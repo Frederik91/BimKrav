@@ -6,6 +6,6 @@ namespace BimKrav.Client.Services
 {
     public interface IPhaseService
     {
-        Task<List<string>> GetPhases();
+        Task<List<Phase>> GetPhases();
     }
 }

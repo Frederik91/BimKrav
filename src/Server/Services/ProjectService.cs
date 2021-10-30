@@ -5,25 +5,22 @@ using BimKrav.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
-namespace BimKrav.Server.Services
+namespace BimKrav.Server.Services;
+
+public class ProjectService : IProjectService
 {
-    public class ProjectService : IProjectService
+    private readonly BimKravDbContext _bimKravDbContext;
+    private readonly IMapper _mapper;
+
+    public ProjectService(BimKravDbContext bimKravDbContext, IMapper mapper)
     {
-        private readonly IMySqlDbConnection _connection;
+        _bimKravDbContext = bimKravDbContext;
+        _mapper = mapper;
+    }
 
-        public ProjectService(IMySqlDbConnection  connection)
-        {
-            _connection = connection;
-        }
-
-        public async Task<List<Project>> GetAllProjects()
-        {
-            var projects = await _connection.ExecuteQuery<Project>("SELECT TABLE_NAME as Name FROM information_schema.tables WHERE TABLE_TYPE LIKE 'VIEW' AND TABLE_NAME LIKE 'z view krav%';");
-            foreach (var project in projects)
-            {
-                project.Name = project.Name.Replace("z view krav", "").Trim();
-            }
-            return projects;
-        }
+    public async Task<List<Project>> GetAllProjects()
+    {
+        var projectTbls = await _bimKravDbContext.Projects.ToListAsync();
+        return _mapper.Map<List<Project>>(projectTbls);
     }
 }

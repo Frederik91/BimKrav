@@ -6,6 +6,6 @@ namespace BimKrav.Client.Services
 {
     public interface IParameterService
     {
-        Task<List<Parameter>> GetParameters(string project, string phase, string? discipline);
+        Task<List<Property>> GetParameters(int projectId, int phaseId, int? disciplineId);
     }
 }

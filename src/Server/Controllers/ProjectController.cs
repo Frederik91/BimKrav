@@ -8,35 +8,34 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BimKrav.Server.Controllers
+namespace BimKrav.Server.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProjectController : Controller
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProjectController : Controller
+    private readonly ILogger<ProjectController> _logger;
+    private readonly IProjectService _projectService;
+
+    public ProjectController(ILogger<ProjectController> logger, IProjectService projectService)
     {
-        private readonly ILogger<ProjectController> _logger;
-        private readonly IProjectService _projectService;
+        _logger = logger;
+        _projectService = projectService;
+    }
 
-        public ProjectController(ILogger<ProjectController> logger, IProjectService projectService)
+    [HttpGet]
+    [ProducesResponseType(typeof(Project), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get()
+    {
+        try
         {
-            _logger = logger;
-            _projectService = projectService;
+            return Ok(await _projectService.GetAllProjects());
         }
-
-        [HttpGet]
-        [ProducesResponseType(typeof(Project), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        catch (Exception e)
         {
-            try
-            {
-                return Ok(await _projectService.GetAllProjects());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return Problem(e.Message);
-            }
+            _logger.LogError(e.Message, e);
+            return Problem(e.Message);
         }
     }
 }
