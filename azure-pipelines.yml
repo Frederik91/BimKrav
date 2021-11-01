@@ -33,6 +33,12 @@ steps:
     publishWebProjects: false
     projects: '**/*.Server.csproj'
     arguments: '--configuration Release --output $(build.artifactstagingdirectory) --self-contained -r win-x86'
+    zipAfterPublish: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'BimKrav.Server'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
@@ -40,7 +46,7 @@ steps:
     azureSubscription: 'Pay-as-you-go(30bc7907-5dde-43b8-8545-093ea6c2942e)'
     appType: 'webApp'
     WebAppName: 'BimKrav'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/Server'
+    packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
 
 - task: AzureAppServiceManage@0
   inputs:
