@@ -16,6 +16,11 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
+- task: UseDotNet@2
+  inputs:
+    version: $(dotNetVersion)
+    includePreviewVersions: true
+
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '**/*.sln'
