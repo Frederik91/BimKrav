@@ -41,3 +41,9 @@ steps:
     appType: 'webApp'
     WebAppName: 'BimKrav'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/Server'
+
+- task: AzureAppServiceManage@0
+  inputs:
+    azureSubscription: 'Pay-as-you-go(30bc7907-5dde-43b8-8545-093ea6c2942e)'
+    Action: 'Start Azure App Service'
+    WebAppName: 'BimKrav'
