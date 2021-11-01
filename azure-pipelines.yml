@@ -30,9 +30,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    - task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
     publishWebProjects: false
     projects: '**/*.Server.csproj'
     arguments: '--configuration Release --output $(build.artifactstagingdirectory) --self-contained -r win-x86'
