@@ -34,7 +34,7 @@ namespace BimKrav.Server.Tests
             Assert.NotNull(properties);
             Assert.NotEmpty(properties);
             var property = properties.First();
-            Assert.NotEmpty(property.Categories);
+            Assert.NotEmpty(property.RevitCategories);
         }
     }
 }

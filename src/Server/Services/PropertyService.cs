@@ -4,10 +4,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
-using BimKrav.Server.Models.QueryResults;
 using BimKrav.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace BimKrav.Server.Services;
 
@@ -79,6 +77,8 @@ public class PropertyService : IPropertyService
         {
             return await _context.Properties
                 .Where(x => propertyIds.Contains(x.Id))
+                .Include(x => x.PSetProperties)
+                .ThenInclude(x => x.PSet)
                 .Include(x => x.RevitCategoryProperties)
                 .ThenInclude(x => x.RevitCategory)
                 .ToListAsync();
@@ -91,6 +91,8 @@ public class PropertyService : IPropertyService
 
         var q = _context.Properties
             .Where(x => propertyIds.Contains(x.Id))
+            .Include(x => x.PSetProperties)
+            .ThenInclude(x => x.PSet)
             .Include(x => x.RevitCategoryProperties)
             .ThenInclude(x => x.RevitCategory);
 

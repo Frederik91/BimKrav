@@ -5,10 +5,26 @@ namespace BimKrav.Shared.Models
 {
     public class Property
     {
-        public string PropertyName { get; set; }
-        public List<string> Categories { get; set; }
-        public string Level { get; set; }
-        public string RevitPropertyType { get; set; }
-        public Guid PropertyGUID { get; set; }
+        public int Id { get; set; }
+
+        public string Name { get; set; } = null!;
+
+        public string IfcPropertyType { get; set; } = null!;
+
+        public string RevitPropertyType { get; set; } = null!;
+
+        public string TypeInstance { get; set; } = null!;
+
+        public string PropertyGroup { get; set; } = null!;
+
+        public string? Description { get; set; }
+
+        public List<PSet> PSets { get; set; }
+
+        public string Comment { get; set; } = null!;
+
+        public Guid? Guid { get; set; }
+
+        public List<RevitCategory> RevitCategories { get; set; } = null!;
     }
 }

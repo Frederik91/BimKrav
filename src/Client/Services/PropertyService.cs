@@ -18,10 +18,6 @@ namespace BimKrav.Client.Services
 
         public async Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId)
         {
-            var disciplineQuery = "";
-            if (disciplineId is not null)
-                disciplineQuery = $"?disciplineId={disciplineId}";
-
             var queries = new List<string>();
             if (projectId is not null)
                 queries.Add($"projectId={projectId}");

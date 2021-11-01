@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using BimKrav.Server.Models.QueryResults;
 using BimKrav.Shared.Models;
 
 namespace BimKrav.Server;
@@ -10,18 +9,16 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<ProjectPropertiesByPhaseAndDisciplineResult, Property>().ForMember(x => x.Categories, x => x.MapFrom(y => GetCategoryList(y)));
-        CreateMap<ProjectTbl, Project>();
+       CreateMap<ProjectTbl, Project>();
         CreateMap<DisciplineTbl, Discipline>();
+        CreateMap<RevitCategoryTbl, RevitCategory>();
+        CreateMap<PSetTbl, PSet>();
         CreateMap<PropertyTbl, Property>()
-            .ForMember(x => x.Level, x => x.MapFrom(y => y.TypeInstance))
-            .ForMember(x => x.Categories, x => x.MapFrom(y => y.RevitCategoryProperties.Select(z => z.RevitCategory.Name)));
+            .ForMember(x => x.Comment, x => x.MapFrom(y => y.Comment))
+            .ForMember(x => x.Description, x => x.MapFrom(y => y.Description))
+            .ForMember(x => x.PSets, x => x.MapFrom(y => y.PSetProperties.Select(x => x.PSet)))
+            .ForMember(x => x.RevitCategories, x => x.MapFrom(y => y.RevitCategoryProperties.Select(z => z.RevitCategory)));
 
         CreateMap<PhaseTbl, Phase>();
-    }
-
-    private static List<string> GetCategoryList(ProjectPropertiesByPhaseAndDisciplineResult y)
-    {
-        return y.Categories.Split(',').Distinct().ToList();
     }
 }

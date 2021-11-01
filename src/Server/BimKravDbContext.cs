@@ -174,7 +174,7 @@ public class BimKravDbContext : DbContext
                 .HasConstraintName("FK_Entitet");
 
             entity.HasOne(d => d.Pset)
-                .WithMany(p => p.IfcentitetPsetJunctions)
+                .WithMany(p => p.IfcTypes)
                 .HasForeignKey(d => d.PsetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pset");
@@ -294,7 +294,7 @@ public class BimKravDbContext : DbContext
                 .HasConstraintName("FK_property3");
 
             entity.HasOne(d => d.PSet)
-                .WithMany(p => p.PsetProperties)
+                .WithMany(p => p.Properties)
                 .HasForeignKey(d => d.PSetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_pset2");
@@ -423,7 +423,7 @@ public class BimKravDbContext : DbContext
                 .HasConstraintName("FK_Property2121");
 
             entity.HasOne(d => d.PSets)
-                .WithMany(p => p.Tblmasterkravs)
+                .WithMany(p => p.MasterKrav)
                 .HasForeignKey(d => d.PSetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pset2121");
@@ -476,12 +476,12 @@ public class BimKravDbContext : DbContext
                 .HasColumnName("Kommer fra 2B")
                 .HasDefaultValueSql("'NULL'");
 
-            entity.Property(e => e.PropertyComment)
+            entity.Property(e => e.Comment)
                 .IsRequired()
                 .HasColumnType("text")
                 .HasDefaultValueSql("'''--'''");
 
-            entity.Property(e => e.PropertyDescription)
+            entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasDefaultValueSql("'NULL'");
 
@@ -489,13 +489,13 @@ public class BimKravDbContext : DbContext
                 .IsRequired()
                 .HasColumnType("text");
 
-            entity.Property(e => e.PropertyGuid)
+            entity.Property(e => e.Guid)
                 .HasMaxLength(36)
                 .HasColumnName("PropertyGUID")
                 .HasDefaultValueSql("'uuid()'")
                 .IsFixedLength();
 
-            entity.Property(e => e.PropertyName)
+            entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnType("text");
 
@@ -511,20 +511,20 @@ public class BimKravDbContext : DbContext
 
         modelBuilder.Entity<PSetTbl>(entity =>
         {
-            entity.HasKey(e => e.IdPset)
+            entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
 
             entity.ToTable("tblpset");
 
-            entity.Property(e => e.IdPset)
+            entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("ID_Pset");
 
-            entity.Property(e => e.PsetDescription)
+            entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasDefaultValueSql("'NULL'");
 
-            entity.Property(e => e.PsetName)
+            entity.Property(e => e.Name)
                 .IsRequired()
                 .HasColumnType("text");
 

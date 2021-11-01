@@ -19,7 +19,7 @@ public class PropertyTbl
     public int Id { get; set; }
 
     [Column("PropertyName")]
-    public string PropertyName { get; set; }
+    public string Name { get; set; }
 
     [Column("IfcPropertyType")]
     public string IfcPropertyType { get; set; }
@@ -34,10 +34,10 @@ public class PropertyTbl
     public string PropertyGroup { get; set; }
 
     [Column("PropertyDescription")]
-    public string? PropertyDescription { get; set; }
+    public string? Description { get; set; }
 
     [Column("PropertyComment")]
-    public string PropertyComment { get; set; }
+    public string Comment { get; set; }
 
     [Column("KommerFra2b")]
     public int? HasB2Origin { get; set; }
@@ -46,7 +46,7 @@ public class PropertyTbl
     public string? Initiator { get; set; }
 
     [Column("PropertyGuid")]
-    public Guid? PropertyGuid { get; set; }
+    public Guid? Guid { get; set; }
 
     public virtual ICollection<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
     public virtual ICollection<PhasePropertyTbl> PhaseProperties { get; set; } = null!;

@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BimKrav.Client.ViewModels;
 
 namespace BimKrav.Client.Components
 {
@@ -14,10 +16,11 @@ namespace BimKrav.Client.Components
         private int? _projectId;
         private int? _phaseId;
         private int? _disciplineId;
-        private Property? _selectedProperty;
+        private PropertyViewModel? _selectedProperty;
 
         [Inject] public IPropertyService PropertyService { get; set; } = null!;
         [Inject] public ISnackbar Snackbar { get; set; } = null!;
+        [Inject] public IMapper Mapper { get; set; } = null!;
 
         [Parameter]
         public int? ProjectId
@@ -44,8 +47,9 @@ namespace BimKrav.Client.Components
 
         protected bool IsLoading { get; set; }
 
-        protected List<Property>? Properties { get; set; }
-        protected Property? SelectedProperty
+
+        protected List<PropertyViewModel>? Properties { get; set; }
+        protected PropertyViewModel? SelectedProperty
         {
             get => _selectedProperty;
             set { _selectedProperty = value; StateHasChanged(); }
@@ -58,19 +62,19 @@ namespace BimKrav.Client.Components
             return Task.CompletedTask;
         }
 
-        protected bool Filter(Property parameter)
+        protected bool Filter(PropertyViewModel parameter)
         {
             if (string.IsNullOrWhiteSpace(PropertySearchText))
                 return true;
-            if (parameter.PropertyName.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
             if (parameter.RevitPropertyType.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.PropertyGUID.ToString().Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.Guid?.ToString().Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase) == true)
                 return true;
-            if (parameter.Level.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
+            if (parameter.TypeInstance.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
-            if (parameter.Categories.Any(x => x.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase)))
+            if (parameter.RevitCategories.Any(x => x.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase)))
                 return true;
 
             return false;
@@ -81,7 +85,8 @@ namespace BimKrav.Client.Components
             IsLoading = true;
             try
             {
-                Properties = await PropertyService.GetProperties(ProjectId, PhaseId, DisciplineId);
+                var properties = await PropertyService.GetProperties(ProjectId, PhaseId, DisciplineId);
+                Properties = Mapper.Map<List<PropertyViewModel>>(properties);
             }
             catch (Exception)
             {
@@ -92,6 +97,11 @@ namespace BimKrav.Client.Components
                 IsLoading = false;
                 StateHasChanged();
             }
+        }
+
+        public static void RowClicked(TableRowClickEventArgs<PropertyViewModel> p)
+        {
+            p.Item.ShowDetails = !p.Item.ShowDetails;
         }
     }
 }

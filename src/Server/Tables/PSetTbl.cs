@@ -9,24 +9,24 @@ public class PSetTbl
 {
     public PSetTbl()
     {
-        IfcentitetPsetJunctions = new HashSet<IfcTypePSetTbl>();
-        PsetProperties = new HashSet<PsetPropertyTbl>();
-        Tblmasterkravs = new HashSet<MasterKravTbl>();
+        IfcTypes = new HashSet<IfcTypePSetTbl>();
+        Properties = new HashSet<PsetPropertyTbl>();
+        MasterKrav = new HashSet<MasterKravTbl>();
     }
 
     [Column("ID_Pset")]
-    public int IdPset { get; set; }
+    public int Id { get; set; }
 
     [Column("PsetName")]
-    public string PsetName { get; set; }
+    public string Name { get; set; }
 
     [Column("PsetDescription")]
-    public string PsetDescription { get; set; }
+    public string Description { get; set; }
 
     [Column("PsetOrigin")]
     public string PsetOrigin { get; set; }
 
-    public virtual ICollection<IfcTypePSetTbl> IfcentitetPsetJunctions { get; set; } = null!;
-    public virtual ICollection<PsetPropertyTbl> PsetProperties { get; set; } = null!;
-    public virtual ICollection<MasterKravTbl> Tblmasterkravs { get; set; } = null!;
+    public virtual ICollection<IfcTypePSetTbl> IfcTypes { get; set; } = null!;
+    public virtual ICollection<PsetPropertyTbl> Properties { get; set; } = null!;
+    public virtual ICollection<MasterKravTbl> MasterKrav { get; set; } = null!;
 }
