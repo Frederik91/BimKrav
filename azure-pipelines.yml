@@ -21,14 +21,17 @@ steps:
     version: '6.0.x'
     includePreviewVersions: true
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '**/*.sln'
+    command: 'restore'
+    projects: '**/*sln'
+    feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: true
+    arguments: '--configuration Release --output $(build.artifactstagingdirectory) --self-contained -r win-x86'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
