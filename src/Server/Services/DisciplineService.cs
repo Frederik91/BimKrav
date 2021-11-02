@@ -22,7 +22,7 @@ public class DisciplineService : IDisciplineService
 
     public async Task<List<Discipline>> GetAllDisciplines()
     {
-        var disciplineTbls = await _context.Discplines.ToListAsync();
+        var disciplineTbls = await _context.Disciplines.ToListAsync();
         return _mapper.Map<List<Discipline>>(disciplineTbls);
     }
 }

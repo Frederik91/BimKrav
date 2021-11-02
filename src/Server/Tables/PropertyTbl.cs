@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BimKrav.Server.Tables;
@@ -15,39 +17,52 @@ public class PropertyTbl
         MasterKrav = new HashSet<MasterKravTbl>();
     }
 
-    [Column("ID_Property")]
+    [Column("ID_Property", TypeName = "int(11)")]
     public int Id { get; set; }
 
-    [Column("PropertyName")]
-    public string Name { get; set; }
+    [Column("PropertyName", TypeName = "'text")]
+    [Required]
+    public string Name { get; set; } = null!;
 
-    [Column("IfcPropertyType")]
-    public string IfcPropertyType { get; set; }
+    [Column("IfcPropertyType", TypeName = "text")]
+    [Required]
+    public string IfcPropertyType { get; set; } = null!;
 
-    [Column("RevitPropertyType")]
-    public string RevitPropertyType { get; set; }
+    [Column("RevitPropertyType", TypeName = "text")]
+    [Required]
+    public string RevitPropertyType { get; set; } = null!;
 
-    [Column("TypeInstans")]
-    public string TypeInstance { get; set; }
-        
-    [Column("PropertyGroup")]
-    public string PropertyGroup { get; set; }
+    [Column("TypeInstans", TypeName = "text")]
+    [Required]
+    [DefaultValue("'''Instans'''")]
+    public string TypeInstance { get; set; } = null!;
 
-    [Column("PropertyDescription")]
-    public string? Description { get; set; }
+    [Column("PropertyGroup", TypeName = "text")]
+    [Required]
+    public string PropertyGroup { get; set; } = null;
 
-    [Column("PropertyComment")]
-    public string Comment { get; set; }
+    [Column("PropertyDescription", TypeName = "text")]
+    [Required]
+    public string Description { get; set; } = null!;
 
-    [Column("KommerFra2b")]
-    public int? HasB2Origin { get; set; }
+    [Column("PropertyComment", TypeName = "text")]
+    [Required]
+    [DefaultValue("'''--'''")]
+    public string Comment { get; set; } = null!;
 
-    [Column("InitiertAv")]
+    [Column("KommerFra2b", TypeName = "tinyint(4)")]
+    [DefaultValue("'NULL'")]
+    public bool? HasB2Origin { get; set; }
+
+    [Column("InitiertAv", TypeName = "text")]
+    [DefaultValue("'NULL'")]
     public string? Initiator { get; set; }
 
     [Column("PropertyGuid")]
-    public Guid? Guid { get; set; }
-
+    [DefaultValue("'uuid()'")]
+    [MaxLength(36)]
+    public Guid Guid { get; set; }
+    
     public virtual ICollection<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
     public virtual ICollection<PhasePropertyTbl> PhaseProperties { get; set; } = null!;
     public virtual ICollection<PsetPropertyTbl> PSetProperties { get; set; } = null!;

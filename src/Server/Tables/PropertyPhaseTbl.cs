@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace BimKrav.Server.Tables;
 
 [Table("property_fase_flagg_junction")]
+[Keyless]
 public class PropertyPhaseTbl
 {
-    [Column("ID_Property")]
+    [Column("ID_Property", TypeName = "int(11)")]
     public int PropertyId { get; set; }
 
-    [Column("ID_Pset")]
+    [Column("ID_Pset", TypeName = "int(11)")]
     public int PSetId { get; set; }
 
-    [Column("Skisseprosjekt")]
+    [Column("Skisseprosjekt", TypeName = "tinyint(4)")]
     public bool Skisseprosjekt { get; set; }
 
-    [Column("Forprosjekt")]
+    [Column("Forprosjekt", TypeName = "tinyint(4)")]
     public bool Forprosjekt { get; set; }
 
-    [Column("Detaljprosjekt")]
+    [Column("Detaljprosjekt", TypeName = "tinyint(4)")]
     public bool Detaljprosjekt { get; set; }
 
-    [Column("Arbeidstegning")]
+    [Column("Arbeidstegning", TypeName = "tinyint(4)")]
     public bool Arbeidstegning { get; set; }
 
-    [Column("Overlevering")]
+    [Column("Overlevering", TypeName = "tinyint(4)")]
     public bool Overlevering { get; set; }
 }

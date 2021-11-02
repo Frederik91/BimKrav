@@ -84,7 +84,7 @@ public class PropertyService : IPropertyService
                 .ToListAsync();
         }
 
-        var categories = await _context.Discplines
+        var categories = await _context.Disciplines
             .Include(x => x.DisciplineRevitCategories)
             .FirstAsync(x => x.Id == disciplineId);
         var categoryIds = categories.DisciplineRevitCategories.Select(x => x.RevitCategoryId).ToList();

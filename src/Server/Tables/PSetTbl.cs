@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BimKrav.Server.Tables;
@@ -14,17 +16,20 @@ public class PSetTbl
         MasterKrav = new HashSet<MasterKravTbl>();
     }
 
-    [Column("ID_Pset")]
+    [Column("ID_Pset", TypeName = "int(11)")]
     public int Id { get; set; }
 
-    [Column("PsetName")]
-    public string Name { get; set; }
+    [Column("PsetName", TypeName = "text")]
+    [Required]
+    public string Name { get; set; } = null!;
 
-    [Column("PsetDescription")]
-    public string Description { get; set; }
+    [Column("PsetDescription", TypeName = "text")]
+    [DefaultValue("'NULL'")]
+    public string? Description { get; set; }
 
-    [Column("PsetOrigin")]
-    public string PsetOrigin { get; set; }
+    [Column("PsetOrigin", TypeName = "text")]
+    [DefaultValue("'NULL'")]
+    public string? PsetOrigin { get; set; }
 
     public virtual ICollection<IfcTypePSetTbl> IfcTypes { get; set; } = null!;
     public virtual ICollection<PsetPropertyTbl> Properties { get; set; } = null!;

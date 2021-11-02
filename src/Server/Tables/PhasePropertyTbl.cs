@@ -5,10 +5,10 @@ namespace BimKrav.Server.Tables;
 [Table("fase_property_junction")]
 public class PhasePropertyTbl
 {
-    [Column("faseID")]
+    [Column("faseID", TypeName = "int(11)")]
     public int PhaseId { get; set; }
 
-    [Column("propertyID")]
+    [Column("propertyID", TypeName = "int(11)")]
     public int PropertyId { get; set; }
 
     public virtual PhaseTbl Phase { get; set; } = null!;

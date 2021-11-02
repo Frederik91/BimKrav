@@ -1,14 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BimKrav.Server.Tables;
 
 [Table("dicipline_element_junction")]
 public class DisciplineRevitCategoryTbl
 {
-    [Column("disciplineID")]
+    [Column("disciplineID", TypeName = "int(11)")]
     public int DisciplineId { get; set; }
 
-    [Column("elementID")]
+    [Column("elementID", TypeName = "int(11)")]
     public int RevitCategoryId { get; set; }
 
     public DisciplineTbl Discipline { get; set; } = null!;
