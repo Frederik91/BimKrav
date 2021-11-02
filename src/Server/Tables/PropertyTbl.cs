@@ -14,13 +14,12 @@ public class PropertyTbl
         RevitCategoryProperties = new HashSet<RevitCategoryPropertiesTbl>();
         PhaseProperties = new HashSet<PhasePropertyTbl>();
         PSetProperties = new HashSet<PsetPropertyTbl>();
-        MasterKrav = new HashSet<MasterKravTbl>();
     }
 
     [Column("ID_Property", TypeName = "int(11)")]
     public int Id { get; set; }
 
-    [Column("PropertyName", TypeName = "'text")]
+    [Column("PropertyName", TypeName = "text")]
     [Required]
     public string Name { get; set; } = null!;
 
@@ -65,5 +64,4 @@ public class PropertyTbl
     public virtual ICollection<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
     public virtual ICollection<PhasePropertyTbl> PhaseProperties { get; set; } = null!;
     public virtual ICollection<PsetPropertyTbl> PSetProperties { get; set; } = null!;
-    public virtual ICollection<MasterKravTbl> MasterKrav { get; set; } = null!;
 }

@@ -21,7 +21,6 @@ public class BimKravDbContext : DbContext
     public virtual DbSet<DisciplineTbl> Disciplines { get; set; }
     public virtual DbSet<PhaseTbl> Phases { get; set; }
     public virtual DbSet<IfcTypeTbl> IfcTypes { get; set; }
-    public virtual DbSet<MasterKravTbl> MasterKrav { get; set; }
     public virtual DbSet<ProjectTbl> Projects { get; set; }
     public virtual DbSet<PropertyTbl> Properties { get; set; }
     public virtual DbSet<PSetTbl> PSets { get; set; }
@@ -176,32 +175,6 @@ public class BimKravDbContext : DbContext
         {
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
-        });
-
-        modelBuilder.Entity<MasterKravTbl>(entity =>
-        {
-            entity.HasKey(e => e.Id)
-                .HasName("PRIMARY");
-
-            entity.ToTable("tblmasterkrav");
-
-            entity.HasIndex(e => e.ElementId, "FK_Element2121");
-
-            entity.HasIndex(e => e.PropertyId, "FK_Property2121");
-
-            entity.HasIndex(e => e.PSetId, "FK_Pset2121");
-
-            entity.HasOne(d => d.Properties)
-                .WithMany(p => p.MasterKrav)
-                .HasForeignKey(d => d.PropertyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Property2121");
-
-            entity.HasOne(d => d.PSets)
-                .WithMany(p => p.MasterKrav)
-                .HasForeignKey(d => d.PSetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Pset2121");
         });
 
         modelBuilder.Entity<ProjectTbl>(entity =>

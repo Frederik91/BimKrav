@@ -13,7 +13,6 @@ public class PSetTbl
     {
         IfcTypes = new HashSet<IfcTypePSetTbl>();
         Properties = new HashSet<PsetPropertyTbl>();
-        MasterKrav = new HashSet<MasterKravTbl>();
     }
 
     [Column("ID_Pset", TypeName = "int(11)")]
@@ -33,5 +32,4 @@ public class PSetTbl
 
     public virtual ICollection<IfcTypePSetTbl> IfcTypes { get; set; } = null!;
     public virtual ICollection<PsetPropertyTbl> Properties { get; set; } = null!;
-    public virtual ICollection<MasterKravTbl> MasterKrav { get; set; } = null!;
 }
