@@ -11,6 +11,7 @@ using System.Linq;
 using BimKrav.Server.Services;
 using BimKrav.Server.Tables;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MySqlConnector;
 
 namespace BimKrav.Server;
@@ -26,13 +27,16 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSwaggerGen();
-            
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "BIM Krav API", Version = "v1" });
+        });
+
         services.AddControllersWithViews();
         services.AddRazorPages();
             
         services.AddAutoMapper(typeof(Startup));
-        var connection = Configuration["ConnectionStrings:DbConnection"];
+        var connection = Configuration["ConnectionStrings:dbConnection"];
         services.AddDbContextPool<BimKravDbContext>(x =>
         {
             x.UseMySql(connection, ServerVersion.AutoDetect(connection));
@@ -58,8 +62,8 @@ public class Startup
             app.UseHsts();
         }
 
-        app.UseSwagger(options => { options.RouteTemplate = "swagger/{documentName}/swagger.json"; });
-        app.UseSwaggerUI();
+        app.UseSwagger();
+        app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "BIM krav API"));
 
         app.UseHttpsRedirection();
         app.UseBlazorFrameworkFiles();
