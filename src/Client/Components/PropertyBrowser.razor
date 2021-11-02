@@ -23,20 +23,18 @@
 <MudGrid>
     <MudItem xs="12">
 
-        <MudTable Items="@Properties" 
-                  Dense="true" 
-                  Hover="true" @bind-SelectedItem="@SelectedProperty" 
-                  OnRowClick="(TableRowClickEventArgs<PropertyViewModel> args) => RowClicked(args)" 
-                  Breakpoint="Breakpoint.Sm" Loading="@IsLoading" 
-                  LoadingProgressColor="Color.Info" 
+        <MudTable Items="@Properties"
+                  Dense="true"
+                  Hover="true" @bind-SelectedItem="@SelectedProperty"
+                  OnRowClick="(TableRowClickEventArgs<PropertyViewModel> args) => RowClicked(args)"
+                  Breakpoint="Breakpoint.Sm" Loading="@IsLoading"
+                  LoadingProgressColor="Color.Info"
                   Filter="p => Filter(p)"
                   GroupBy="@_propertyGroupDefinition"
                   Virtualize="true">
             <ToolBarContent>
-                <MudText Typo="Typo.h6">Parameters</MudText>
-                <MudSpacer />
                 <MudTextField @bind-Value="PropertySearchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            </ToolBarContent>
+           </ToolBarContent>
             <GroupHeaderTemplate>
                 <MudTh Class="mud-table-cell-custom-group" colspan="6">@($"{context.Key}")</MudTh>
             </GroupHeaderTemplate>
@@ -60,34 +58,34 @@
 
                                     <MudSimpleTable Style="overflow-x: auto;" Dense="true">
                                         <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Value</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Value</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>GUID</td>
-                                            <td>@context.Guid</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Revit data type</td>
-                                            <td>@context.RevitPropertyType</td>
-                                        </tr>
-                                        <tr>
-                                            <td>IFC data type</td>
-                                            <td>@context.IfcPropertyType</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Level</td>
-                                            <td>@context.TypeInstance</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Categories</td>
-                                            <td>
-                                                <MudButton OnClick="() => context.ShowCategories = !context.ShowCategories">Show categories (@context.RevitCategories.Count)</MudButton>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>GUID</td>
+                                                <td>@context.Guid</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Revit data type</td>
+                                                <td>@context.RevitPropertyType</td>
+                                            </tr>
+                                            <tr>
+                                                <td>IFC data type</td>
+                                                <td>@context.IfcPropertyType</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Level</td>
+                                                <td>@context.TypeInstance</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Categories</td>
+                                                <td>
+                                                    <MudButton OnClick="() => context.ShowCategories = !context.ShowCategories">Show categories (@context.RevitCategories.Count)</MudButton>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </MudSimpleTable>
                                     @if (context.ShowCategories)
@@ -111,9 +109,6 @@
                     </MudTr>
                 }
             </ChildRowContent>
-            <GroupFooterTemplate>
-                <MudTh Class="mud-table-cell-custom-group mud-table-cell-custom-group-footer" colspan="5">Total properties: @context.Items.Count()</MudTh>
-            </GroupFooterTemplate>
         </MudTable>
     </MudItem>
 </MudGrid>
@@ -122,12 +117,12 @@
 @code {
 
     private readonly TableGroupDefinition<PropertyViewModel> _propertyGroupDefinition = new()
-    {
-        GroupName = "PSet",
-        Indentation = true,
-        Expandable = true,
-        IsInitiallyExpanded = false,
-        Selector = (e) => e?.PSets.FirstOrDefault()?.Name ?? "None"
-    };
+        {
+            GroupName = "PSet",
+            Indentation = true,
+            Expandable = true,
+            IsInitiallyExpanded = false,
+            Selector = (e) => e?.PSets.FirstOrDefault()?.Name ?? "None"
+        };
 
 }
