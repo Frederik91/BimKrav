@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BimKrav.Server.Tables;
 
-[Table("Tblrevitelement")]
+[Table("Tblrevitelements")]
 public class RevitCategoryTbl
 {
     public RevitCategoryTbl()
