@@ -68,6 +68,8 @@ namespace BimKrav.Client.Components
                 return true;
             if (parameter.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
+            if (parameter.PSets.Any(x => x.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase)))
+                return true;
             if (parameter.RevitPropertyType.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
                 return true;
             if (parameter.Guid?.ToString().Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase) == true)
