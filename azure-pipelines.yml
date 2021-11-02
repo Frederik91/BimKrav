@@ -1,0 +1,55 @@
+  # Xamarin.Android
+# Build a Xamarin.Android project.
+# Add steps that test, sign, and distribute an app, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/xamarin
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: UseDotNet@2
+  inputs:
+    version: '6.0.x'
+    includePreviewVersions: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*sln'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*.Server.csproj'
+    arguments: '--configuration Release --output $(build.artifactstagingdirectory) --self-contained -r win-x86'
+    zipAfterPublish: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'BimKrav.Server'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pay-as-you-go(30bc7907-5dde-43b8-8545-093ea6c2942e)'
+    appType: 'webApp'
+    WebAppName: 'BimKrav'
+    packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+
+- task: AzureAppServiceManage@0
+  inputs:
+    azureSubscription: 'Pay-as-you-go(30bc7907-5dde-43b8-8545-093ea6c2942e)'
+    Action: 'Start Azure App Service'
+    WebAppName: 'BimKrav'
