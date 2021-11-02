@@ -22,7 +22,7 @@
 
 @if (Properties is null)
 {
-    <MudProgressCircular Color="Color.Primary" Size="Size.Medium" Indeterminate="true" />
+    <MudProgressCircular Color="Color.Primary" Class="align-self-center" Size="Size.Medium" Indeterminate="true" />
 }
 else
 {
@@ -83,25 +83,25 @@ else
                                             <tr>
                                                 <td>GUID</td>
                                                 <td>
-                                                    <MudHighlighter Text="@context.Guid?.ToString()" HighlightedText="@PropertySearchText"/>
+                                                    <MudHighlighter Text="@context.Guid?.ToString()" HighlightedText="@PropertySearchText" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Revit data type</td>
                                                 <td>
-                                                    <MudHighlighter Text="@context.RevitPropertyType" HighlightedText="@PropertySearchText"/>
+                                                    <MudHighlighter Text="@context.RevitPropertyType" HighlightedText="@PropertySearchText" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>IFC data type</td>
                                                 <td>
-                                                    <MudHighlighter Text="@context.IfcPropertyType" HighlightedText="@PropertySearchText"/>
+                                                    <MudHighlighter Text="@context.IfcPropertyType" HighlightedText="@PropertySearchText" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Level</td>
                                                 <td>
-                                                    <MudHighlighter Text="@context.TypeInstance" HighlightedText="@PropertySearchText"/>
+                                                    <MudHighlighter Text="@context.TypeInstance" HighlightedText="@PropertySearchText" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -117,11 +117,9 @@ else
 
                                         <MudTable Items="@context.RevitCategories" Dense="true" Context="RevitCategoryContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0">
                                             <HeaderContent>
-                                                <MudTh>Id</MudTh>
                                                 <MudTh>Name</MudTh>
                                             </HeaderContent>
                                             <RowTemplate>
-                                                <MudTd DataLabel="Id">@RevitCategoryContext.Id</MudTd>
                                                 <MudTd DataLabel="Name">@RevitCategoryContext.Name</MudTd>
                                             </RowTemplate>
                                         </MudTable>
