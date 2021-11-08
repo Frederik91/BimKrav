@@ -35,7 +35,8 @@ else
                   Dense="true"
                   Hover="true" @bind-SelectedItem="@SelectedProperty"
                   OnRowClick="(TableRowClickEventArgs<PropertyViewModel> args) => RowClicked(args)"
-                  Breakpoint="Breakpoint.Sm" Loading="@IsLoading"
+                  Breakpoint="Breakpoint.Sm" 
+                  Loading="@IsLoading"
                   LoadingProgressColor="Color.Info"
                   Filter="p => Filter(p)"
                   GroupBy="@_propertyGroupDefinition"
@@ -49,9 +50,9 @@ else
                     </MudTh>
                 </GroupHeaderTemplate>
                 <HeaderContent>
-                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<PropertyViewModel, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x => x.Description)">Description</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortBy="new Func<Property, object>(x => x.Comment)">Comments</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Name))">Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Description))">Description</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Comment))">Comments</MudTableSortLabel></MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Name">

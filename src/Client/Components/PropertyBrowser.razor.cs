@@ -88,7 +88,7 @@ namespace BimKrav.Client.Components
             try
             {
                 var properties = await PropertyService.GetProperties(ProjectId, PhaseId, DisciplineId);
-                Properties = Mapper.Map<List<PropertyViewModel>>(properties);
+                Properties = Mapper.Map<List<PropertyViewModel>>(properties).OrderBy(x => x.PSets.FirstOrDefault()?.Name ?? "None").ToList();
             }
             catch (Exception)
             {
