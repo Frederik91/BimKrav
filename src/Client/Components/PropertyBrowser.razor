@@ -41,7 +41,7 @@ else
                   GroupBy="@_propertyGroupDefinition"
                   Virtualize="true">
                 <ToolBarContent>
-                    <MudTextField @bind-Value="PropertySearchText" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    <MudTextField @bind-Value="PropertySearchText" @onchange="StateHasChanged" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 </ToolBarContent>
                 <GroupHeaderTemplate>
                     <MudTh Class="mud-table-cell-custom-group" colspan="6">
