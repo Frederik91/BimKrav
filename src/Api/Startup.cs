@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
+using HotChocolate.AspNetCore;
+using HotChocolate.Execution;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace BimKrav.Api;
@@ -20,6 +22,12 @@ public class Startup : FunctionsStartup
         services.AddTransient<IPropertyService, PropertyService>();
         services.AddTransient<IPhaseService, PhaseService>();
         services.AddAutoMapper(typeof(AutoMapperProfile));
+
+        builder.AddGraphQLFunction()
+            .AddQueryType<Query>()
+            .AddProjections()
+            .AddFiltering()
+            .AddSorting();
 
         var connectionString = builder.GetContext().Configuration["ConnectionStrings:dbConnection"];
         services.AddDbContext<BimKravDbContext>(x =>

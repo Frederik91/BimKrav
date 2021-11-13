@@ -119,6 +119,10 @@ public class BimKravDbContext : DbContext
 
         modelBuilder.Entity<ProjectPropertyTbl>(entity =>
         {
+            entity.HasKey(e => new { IDProject = e.ProjectId, IDProperty = e.PropertyId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
             entity.HasIndex(e => e.ProjectId, "ID_Project");
 
             entity.HasIndex(e => e.PropertyId, "ID_Property");
@@ -180,6 +184,7 @@ public class BimKravDbContext : DbContext
         {
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
+            
 
             entity.HasComment("This table list all ongoing and completed hospital porjects lead by Sykehusbygg HF");
         });
@@ -188,6 +193,8 @@ public class BimKravDbContext : DbContext
         {
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
+
+            //entity.HasMany(x => x.ProjectProperties);
         });
 
         modelBuilder.Entity<PSetTbl>(entity =>

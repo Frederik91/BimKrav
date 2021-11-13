@@ -25,7 +25,7 @@ public class PropertyService : IPropertyService
         List<int>? projectPropertyIds = null;
         if (projectId != null)
         {
-            projectPropertyIds = await _context.ProjectProperties.Where(x => x.ProjectId == projectId && x.ProjectId != null).Select(x => x.PropertyId ?? 0).ToListAsync();
+            projectPropertyIds = await _context.ProjectProperties.Where(x => x.ProjectId == projectId).Select(x => x.PropertyId).ToListAsync();
         }
 
         List<int>? phasePropertyIds = null;
