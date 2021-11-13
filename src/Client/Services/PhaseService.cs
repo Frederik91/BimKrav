@@ -17,7 +17,7 @@ namespace BimKrav.Client.Services
 
         public async Task<List<Phase>> GetPhases()
         {
-            return await _httpClient.GetFromJsonAsync<List<Phase>>("Phase") ?? new List<Phase>();
+            return await _httpClient.GetFromJsonAsync<List<Phase>>("Phases") ?? new List<Phase>();
         }
     }
 }

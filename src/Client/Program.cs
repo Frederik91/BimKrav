@@ -21,7 +21,7 @@ namespace BimKrav.Client
 
             builder.Services.AddHttpClient(ConsumedApis.BimKrav, client =>
             {
-                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
+                client.BaseAddress = new Uri("https://bimkravapi.azurewebsites.net/api/");
             });
 
             builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);

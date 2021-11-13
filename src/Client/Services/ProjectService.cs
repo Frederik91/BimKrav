@@ -17,7 +17,7 @@ namespace BimKrav.Client.Services
 
         public async Task<List<Project>> GetProjects()
         {
-            return await _httpClient.GetFromJsonAsync<List<Project>>("Project") ?? new List<Project>();
+            return await _httpClient.GetFromJsonAsync<List<Project>>("Projects") ?? new List<Project>();
         }
     }
 }

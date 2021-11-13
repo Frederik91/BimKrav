@@ -55,7 +55,7 @@ namespace BimKrav.Client.Components
             if (string.IsNullOrWhiteSpace(searchText) || AvailableProjects is null)
                 return Task.FromResult(AvailableProjects as IEnumerable<Project> ?? new List<Project>());
 
-            var projects = AvailableProjects.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            var projects = AvailableProjects.Where(x => x.Name?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true).ToList();
             if (projects.Count == 1 && projects.First().Name == searchText && projects.First().Id == SelectedProjectId)
                 projects = AvailableProjects;
 

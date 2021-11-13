@@ -19,7 +19,7 @@ namespace BimKrav.Shared.Models
 
         public string? Description { get; set; }
 
-        public List<PSet> PSets { get; set; }
+        public List<PSet>? PSets { get; set; }
 
         public string Comment { get; set; } = null!;
 

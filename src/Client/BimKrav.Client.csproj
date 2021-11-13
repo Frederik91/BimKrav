@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		<Nullable>enable</Nullable>
+		<UserSecretsId>73274162-a048-45e1-8050-0d448d9f71a5</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,15 +17,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Shared\BimKrav.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared\BimKrav.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

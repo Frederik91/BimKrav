@@ -33,7 +33,7 @@ namespace BimKrav.Client.Services
                 query += string.Join("&", queries);
             }
 
-            return await _httpClient.GetFromJsonAsync<List<Property>>($"Property{query}") ?? new List<Property>();
+            return await _httpClient.GetFromJsonAsync<List<Property>>($"Properties{query}") ?? new List<Property>();
         }
     }
 }
