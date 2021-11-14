@@ -9,7 +9,7 @@ public class ProjectTbl
 {
     public ProjectTbl()
     {
-        //ProjectProperties = new HashSet<ProjectPropertyTbl>();
+        ProjectProperties = new HashSet<ProjectPropertyTbl>();
     }
 
     [Column("ID_project", TypeName = "int(11)")]
@@ -23,5 +23,5 @@ public class ProjectTbl
     [DefaultValue("'NULL'")]
     public string? Name { get; set; }
 
-    //public virtual ICollection<ProjectPropertyTbl> ProjectProperties { get; set; } = null!;
+    public virtual ICollection<ProjectPropertyTbl> ProjectProperties { get; set; } = null!;
 }

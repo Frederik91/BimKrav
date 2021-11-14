@@ -128,12 +128,12 @@ public class BimKravDbContext : DbContext
             entity.HasIndex(e => e.PropertyId, "ID_Property");
 
             entity.HasOne(d => d.Project)
-                .WithMany()
+                .WithMany(x => x.ProjectProperties)
                 .HasForeignKey(d => d.ProjectId)
                 .HasConstraintName("ID_Project5");
 
             entity.HasOne(d => d.Property)
-                .WithMany()
+                .WithMany(x => x.ProjectProperties)
                 .HasForeignKey(d => d.PropertyId)
                 .HasConstraintName("ID_Property5");
         });
@@ -189,12 +189,10 @@ public class BimKravDbContext : DbContext
             entity.HasComment("This table list all ongoing and completed hospital porjects lead by Sykehusbygg HF");
         });
 
-        modelBuilder.Entity<PropertyTbl>(entity =>
+        modelBuilder.Entity<PropertyTbl>(entity =>      
         {
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
-
-            //entity.HasMany(x => x.ProjectProperties);
         });
 
         modelBuilder.Entity<PSetTbl>(entity =>
