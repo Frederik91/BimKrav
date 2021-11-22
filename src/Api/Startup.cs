@@ -28,7 +28,6 @@ public class Startup : FunctionsStartup
             .AddProjections()
             .AddFiltering()
             .AddSorting();
-
         var connectionString = builder.GetContext().Configuration["ConnectionStrings:dbConnection"];
         services.AddDbContext<BimKravDbContext>(x =>
         {

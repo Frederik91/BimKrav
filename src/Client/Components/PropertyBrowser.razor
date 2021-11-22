@@ -35,7 +35,7 @@ else
                   Dense="true"
                   Hover="true" @bind-SelectedItem="@SelectedProperty"
                   OnRowClick="(TableRowClickEventArgs<PropertyViewModel> args) => RowClicked(args)"
-                  Breakpoint="Breakpoint.Sm" 
+                  Breakpoint="Breakpoint.Sm"
                   Loading="@IsLoading"
                   LoadingProgressColor="Color.Info"
                   Filter="p => Filter(p)"
@@ -65,80 +65,73 @@ else
                         <MudHighlighter Text="@context.Comment" HighlightedText="@PropertySearchText" />
                     </MudTd>
                 </RowTemplate>
-                <ChildRowContent>
-                    @if (context.ShowDetails)
-                    {
-                    <MudTr>
-                        <td colspan="4">
-                            <MudCard Elevation="0">
-                                <MudCardContent Class="pa-0">
+            </MudTable>
+        </MudItem>
+    </MudGrid>
 
-                                    <MudSimpleTable Style="overflow-x: auto;" Dense="true">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>GUID</td>
-                                                <td>
-                                                    <MudHighlighter Text="@context.Guid?.ToString()" HighlightedText="@PropertySearchText" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Revit data type</td>
-                                                <td>
-                                                    <MudHighlighter Text="@context.RevitPropertyType" HighlightedText="@PropertySearchText" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>IFC data type</td>
-                                                <td>
-                                                    <MudHighlighter Text="@context.IfcPropertyType" HighlightedText="@PropertySearchText" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Level</td>
-                                                <td>
-                                                    <MudHighlighter Text="@context.TypeInstance" HighlightedText="@PropertySearchText" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Categories</td>
-                                                <td>
-                                                    <MudButton OnClick="() => context.ShowCategories = !context.ShowCategories">Show categories (@context.RevitCategories.Count)</MudButton>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </MudSimpleTable>
-                                    @if (context.ShowCategories)
-                                        {
+    <MudMessageBox @ref="MessageBox" Title="@ClickedRowItem?.Name">
+        <MessageContent>
+            @if (ClickedRowItem != null)
+            {
+                <MudSimpleTable Dense="true">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GUID</td>
+                            <td>
+                                <MudHighlighter Text="@ClickedRowItem.Guid?.ToString()" HighlightedText="@PropertySearchText" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Revit data type</td>
+                            <td>
+                                <MudHighlighter Text="@ClickedRowItem.RevitPropertyType" HighlightedText="@PropertySearchText" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IFC data type</td>
+                            <td>
+                                <MudHighlighter Text="@ClickedRowItem.IfcPropertyType" HighlightedText="@PropertySearchText" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Level</td>
+                            <td>
+                                <MudHighlighter Text="@ClickedRowItem.TypeInstance" HighlightedText="@PropertySearchText" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Categories</td>
+                            <td>
+                                <MudButton OnClick="() => ClickedRowItem.ShowCategories = !ClickedRowItem.ShowCategories">Show categories (@ClickedRowItem.RevitCategories.Count)</MudButton>
+                            </td>
+                        </tr>
 
-                                        <MudTable Items="@context.RevitCategories" Dense="true" Context="RevitCategoryContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0">
-                                            <HeaderContent>
-                                                <MudTh>Name</MudTh>
-                                            </HeaderContent>
-                                            <RowTemplate>
-                                                <MudTd DataLabel="Name">@RevitCategoryContext.Name</MudTd>
-                                            </RowTemplate>
-                                        </MudTable>
-
-                                        }
-                                </MudCardContent>
-                            </MudCard>
-                        </td>
-                    </MudTr>
-                    }
-            </ChildRowContent>
-        </MudTable>
-    </MudItem>
-</MudGrid>
+                 @*       <MudTable Items="@ClickedRowItem.RevitCategories" Dense="true" Context="RevitCategoryContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="0">
+                            <HeaderContent>
+                                <MudTh>Name</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Name">@RevitCategoryContext.Name</MudTd>
+                            </RowTemplate>
+                        </MudTable>*@
+                    </tbody>
+                </MudSimpleTable>
+            }
+        </MessageContent>
+        @*        <YesButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Close">Close</MudButton>
+            </YesButton>*@
+    </MudMessageBox>
 }
 @code {
 
-    private readonly TableGroupDefinition<PropertyViewModel> _propertyGroupDefinition = new()
+    private readonly TableGroupDefinition<PropertyViewModel?> _propertyGroupDefinition = new()
         {
             GroupName = "PSet",
             Indentation = true,

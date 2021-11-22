@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BimKrav.Client.Services
+namespace BimKrav.Client.Services;
+
+public interface IDisciplineService
 {
-    public interface IDisciplineService
-    {
-        Task<List<Discipline>> GetDisciplines();
-    }
+    Task<List<Discipline>> GetDisciplines();
 }
