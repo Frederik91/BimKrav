@@ -1,11 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using BimKrav.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace BimKrav.Server.Tests;
 

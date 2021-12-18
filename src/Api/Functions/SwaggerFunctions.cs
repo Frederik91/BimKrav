@@ -10,27 +10,26 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BimKrav.Api.Functions
-{
-    public static class SwaggerFunctions
-    {
-        [SwaggerIgnore]
-        [FunctionName("Swagger")]
-        public static Task<HttpResponseMessage> Run(
-      [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Swagger/json")] HttpRequestMessage req,
-      [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
-        {
-            var result = swashBuckleClient.CreateSwaggerJsonDocumentResponse(req);
-            return Task.FromResult(result);
-        }
+namespace BimKrav.Api.Functions;
 
-        [SwaggerIgnore]
-        [FunctionName("SwaggerUi")]
-        public static Task<HttpResponseMessage> Run2(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Swagger/ui")] HttpRequestMessage req,
-            [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
-        {
-            return Task.FromResult(swashBuckleClient.CreateSwaggerUIResponse(req, "swagger/json"));
-        }
+public static class SwaggerFunctions
+{
+    [SwaggerIgnore]
+    [FunctionName("Swagger")]
+    public static Task<HttpResponseMessage> Run(
+  [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Swagger/json")] HttpRequestMessage req,
+  [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
+    {
+        var result = swashBuckleClient.CreateSwaggerJsonDocumentResponse(req);
+        return Task.FromResult(result);
+    }
+
+    [SwaggerIgnore]
+    [FunctionName("SwaggerUi")]
+    public static Task<HttpResponseMessage> Run2(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Swagger/ui")] HttpRequestMessage req,
+        [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
+    {
+        return Task.FromResult(swashBuckleClient.CreateSwaggerUIResponse(req, "swagger/json"));
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace BimKrav.Client
+﻿namespace BimKrav.Client;
+
+public static class ConsumedApis
 {
-    public static class ConsumedApis
-    {
-        public static readonly string BimKrav = "BimKrav";
-    }
+    public static readonly string BimKrav = "BimKrav";
 }
