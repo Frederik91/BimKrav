@@ -1,0 +1,3 @@
+﻿@inherits PhaseSelectorBase
+
+<MudAutocomplete T="Shared.Models.Phase" Label="Phases" @bind-Value="SelectedPhase" SearchFunc="@(m => SearchPhase(m))"  ToStringFunc="@(x => x.Name)" Margin="Margin.Dense" Dense="true" ResetValueOnEmptyText="true"/>

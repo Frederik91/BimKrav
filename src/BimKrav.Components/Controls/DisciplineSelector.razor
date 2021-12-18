@@ -1,0 +1,3 @@
+﻿@inherits DisciplineSelectorBase
+
+<MudAutocomplete T="Discipline" Label="Disciplines" @bind-Value="SelectedDiscipline" ToStringFunc="@(x => x.Name)" SearchFunc="@(m => SearchDiscipline(m))" Margin="Margin.Dense" Dense="true" ResetValueOnEmptyText="true"/>
