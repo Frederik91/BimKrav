@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BimKrav.Client.Services
+namespace BimKrav.Client.Services;
+
+public interface IPropertyService
 {
-    public interface IPropertyService
-    {
-        Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId);
-    }
+    Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId);
 }

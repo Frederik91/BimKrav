@@ -5,35 +5,34 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace BimKrav.Client.Services
+namespace BimKrav.Client.Services;
+
+public class PropertyService : IPropertyService
 {
-    public class PropertyService : IPropertyService
+    private readonly HttpClient _httpClient;
+
+    public PropertyService(HttpClient httpClient)
     {
-        private readonly HttpClient _httpClient;
+        _httpClient = httpClient;
+    }
 
-        public PropertyService(HttpClient httpClient)
+    public async Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId)
+    {
+        var queries = new List<string>();
+        if (projectId is not null)
+            queries.Add($"projectId={projectId}");
+        if (phaseId is not null)
+            queries.Add($"phaseId={phaseId}");
+        if (disciplineId is not null)
+            queries.Add($"disciplineId={disciplineId}");
+
+        var query = string.Empty;
+        if (queries.Any())
         {
-            _httpClient = httpClient;
+            query += "?";
+            query += string.Join("&", queries);
         }
 
-        public async Task<List<Property>> GetProperties(int? projectId, int? phaseId, int? disciplineId)
-        {
-            var queries = new List<string>();
-            if (projectId is not null)
-                queries.Add($"projectId={projectId}");
-            if (phaseId is not null)
-                queries.Add($"phaseId={phaseId}");
-            if (disciplineId is not null)
-                queries.Add($"disciplineId={disciplineId}");
-
-            var query = string.Empty;
-            if (queries.Any())
-            {
-                query += "?";
-                query += string.Join("&", queries);
-            }
-
-            return await _httpClient.GetFromJsonAsync<List<Property>>($"Property{query}") ?? new List<Property>();
-        }
+        return await _httpClient.GetFromJsonAsync<List<Property>>($"Property{query}") ?? new List<Property>();
     }
 }

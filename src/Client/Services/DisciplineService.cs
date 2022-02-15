@@ -4,20 +4,19 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace BimKrav.Client.Services
+namespace BimKrav.Client.Services;
+
+public class DisciplineService : IDisciplineService
 {
-    public class DisciplineService : IDisciplineService
+    private readonly HttpClient _httpClient;
+
+    public DisciplineService(HttpClient httpClient)
     {
-        private readonly HttpClient _httpClient;
+        _httpClient = httpClient;
+    }
 
-        public DisciplineService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
-        public async Task<List<Discipline>> GetDisciplines()
-        {
-            return await _httpClient.GetFromJsonAsync<List<Discipline>>("Discipline") ?? new List<Discipline>();
-        }
+    public async Task<List<Discipline>> GetDisciplines()
+    {
+        return await _httpClient.GetFromJsonAsync<List<Discipline>>("Discipline") ?? new List<Discipline>();
     }
 }

@@ -26,6 +26,8 @@ public class PropertyViewModel
     public Guid? Guid { get; set; }
 
     public List<RevitCategory> RevitCategories { get; set; } = null!;
-    public bool ShowDetails { get; set; }
     public bool ShowCategories { get; set; }
+
+
+    public int CategoryPage { get; set; }
 }

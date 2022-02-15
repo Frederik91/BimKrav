@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.EntityFrameworkCore;
-using AutoMapper.QueryableExtensions;
-using BimKrav.Server.Tables;
 using BimKrav.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 

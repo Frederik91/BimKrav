@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BimKrav.Client.Services
+namespace BimKrav.Client.Services;
+
+public interface IProjectService
 {
-    public interface IProjectService
-    {
-        Task<List<Project>> GetProjects();
-    }
+    Task<List<Project>> GetProjects();
 }

@@ -1,0 +1,84 @@
+﻿@inherits PropertyDetailsBase
+
+<MudDialog>
+    <DialogContent>
+        @if (Context != null)
+        {
+            <MudSimpleTable Style="overflow-x: auto;" Dense="true">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GUID</td>
+                        <td>
+                            <MudText>@Context.Guid?.ToString()</MudText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Revit data type</td>
+                        <td>
+                            <MudText>@Context.RevitPropertyType</MudText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>IFC data type</td>
+                        <td>
+                            <MudText>@Context.IfcPropertyType</MudText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Level</td>
+                        <td>
+                            <MudText>@Context.TypeInstance</MudText>
+                        </td>
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+
+
+            <MudText Typo="Typo.h6">Categories</MudText>
+            @if (Context.RevitCategories.Count <= 5)
+            {
+                <MudList Dense="true">
+                    @foreach (var category in Context.RevitCategories)
+                    {
+                        <MudListItem>@category.Name</MudListItem>
+                    }
+                </MudList>
+            }
+            else
+            {
+                <MudTable @ref="@_table" Items="@Context.RevitCategories" RowsPerPage="5" Breakpoint="Breakpoint.SmAndUp" Dense="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudPagination SelectedChanged="PageChanged" Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" />
+                    </PagerContent>
+                </MudTable>
+            }
+
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Close">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+
+@code {
+    private MudTable<RevitCategory> _table = null!;
+
+    private void PageChanged(int i)
+    {
+        _table.NavigateTo(i - 1);
+    }
+}

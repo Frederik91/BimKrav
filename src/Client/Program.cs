@@ -10,29 +10,28 @@ using MudBlazor.Services;
 using System.Threading.Tasks;
 using BimKrav.Client.Services;
 
-namespace BimKrav.Client
+namespace BimKrav.Client;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        builder.RootComponents.Add<App>("#app");
+
+        builder.Services.AddHttpClient(ConsumedApis.BimKrav, client =>
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+            client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
+        });
 
-            builder.Services.AddHttpClient(ConsumedApis.BimKrav, client =>
-            {
-                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
-            });
+        builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);
+        builder.Services.AddHttpClient<IDisciplineService, DisciplineService>(ConsumedApis.BimKrav);
+        builder.Services.AddHttpClient<IPhaseService, PhaseService>(ConsumedApis.BimKrav);
+        builder.Services.AddHttpClient<IPropertyService, PropertyService>(ConsumedApis.BimKrav);
+        builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            builder.Services.AddHttpClient<IProjectService, ProjectService>(ConsumedApis.BimKrav);
-            builder.Services.AddHttpClient<IDisciplineService, DisciplineService>(ConsumedApis.BimKrav);
-            builder.Services.AddHttpClient<IPhaseService, PhaseService>(ConsumedApis.BimKrav);
-            builder.Services.AddHttpClient<IPropertyService, PropertyService>(ConsumedApis.BimKrav);
-            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+        builder.Services.AddMudServices();
 
-            builder.Services.AddMudServices();
-
-            await builder.Build().RunAsync();
-        }
+        await builder.Build().RunAsync();
     }
 }
