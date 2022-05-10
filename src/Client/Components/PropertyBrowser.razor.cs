@@ -16,7 +16,9 @@ public class PropertyBrowserBase : ComponentBase
     private int? _projectId;
     private int? _phaseId;
     private int? _disciplineId;
+    private DateTime _lastClick = DateTime.Now;
     private PropertyViewModel? _selectedProperty;
+    private int _lastClickedItemId;
 
     [Inject] public IDialogService DialogService { get; set; } = null!;
     [Inject] public IPropertyService PropertyService { get; set; } = null!;
@@ -63,8 +65,10 @@ public class PropertyBrowserBase : ComponentBase
         return Task.CompletedTask;
     }
 
-    protected bool Filter(PropertyViewModel parameter)
+    protected bool Filter(PropertyViewModel? parameter)
     {
+        if (parameter is null)
+            return false;
         if (string.IsNullOrWhiteSpace(PropertySearchText))
             return true;
         if (parameter.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
@@ -104,6 +108,13 @@ public class PropertyBrowserBase : ComponentBase
 
     protected void RowClicked(TableRowClickEventArgs<PropertyViewModel> p)
     {
+        var isSameItem = _lastClickedItemId == p.Item.Id;
+        var isDouble = (DateTime.Now - _lastClick) < TimeSpan.FromMilliseconds(500);
+        _lastClick = DateTime.Now;
+        _lastClickedItemId = p.Item.Id;
+        if (!isSameItem || !isDouble)
+            return;
+
         var parameters = new DialogParameters { { "Context", p.Item } };
         var dialog = new DialogOptions
         {

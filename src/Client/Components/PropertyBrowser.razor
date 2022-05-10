@@ -45,13 +45,13 @@ else
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Name">
-                        <MudHighlighter Text="@context.Name" HighlightedText="@PropertySearchText" />
+                        <MudHighlighter Text="@context?.Name" HighlightedText="@PropertySearchText" />
                     </MudTd>
                     <MudTd DataLabel="Description">
-                        <MudHighlighter Text="@context.Description" HighlightedText="@PropertySearchText" />
+                        <MudHighlighter Text="@context?.Description" HighlightedText="@PropertySearchText" />
                     </MudTd>
                     <MudTd DataLabel="Comments">
-                        <MudHighlighter Text="@context.Comment" HighlightedText="@PropertySearchText" />
+                        <MudHighlighter Text="@context?.Comment" HighlightedText="@PropertySearchText" />
                     </MudTd>
                 </RowTemplate>
             </MudTable>
@@ -60,7 +60,7 @@ else
 }
 @code {
 
-    private readonly TableGroupDefinition<PropertyViewModel> _propertyGroupDefinition = new()
+    private readonly TableGroupDefinition<PropertyViewModel?> _propertyGroupDefinition = new()
         {
             GroupName = "PSet",
             Indentation = true,

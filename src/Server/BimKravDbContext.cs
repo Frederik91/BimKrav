@@ -9,22 +9,22 @@ public class BimKravDbContext : DbContext
     public BimKravDbContext(DbContextOptions<BimKravDbContext> options) : base(options)
     {
     }
-        
-    public virtual DbSet<DisciplineRevitCategoryTbl> DisciplineRevitCategories { get; set; }
-    public virtual DbSet<RevitCategoryIfcTypeTbl> RevitCategoryIfcTypes { get; set; }
-    public virtual DbSet<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; }
-    public virtual DbSet<PhasePropertyTbl> PhaseProperties { get; set; }
-    public virtual DbSet<IfcTypePSetTbl> IfcTypePSets { get; set; }
-    public virtual DbSet<PropertyPhaseTbl> PropertyPhase { get; set; }
-    public virtual DbSet<ProjectPropertyTbl> ProjectProperties { get; set; }
-    public virtual DbSet<PsetPropertyTbl> PSetProperties { get; set; }
-    public virtual DbSet<DisciplineTbl> Disciplines { get; set; }
-    public virtual DbSet<PhaseTbl> Phases { get; set; }
-    public virtual DbSet<IfcTypeTbl> IfcTypes { get; set; }
-    public virtual DbSet<ProjectTbl> Projects { get; set; }
-    public virtual DbSet<PropertyTbl> Properties { get; set; }
-    public virtual DbSet<PSetTbl> PSets { get; set; }
-    public virtual DbSet<RevitCategoryTbl> RevitCategories { get; set; }
+
+    public virtual DbSet<DisciplineRevitCategoryTbl> DisciplineRevitCategories { get; set; } = null!;
+    public virtual DbSet<RevitCategoryIfcTypeTbl> RevitCategoryIfcTypes { get; set; } = null!;
+    public virtual DbSet<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
+    public virtual DbSet<PhasePropertyTbl> PhaseProperties { get; set; } = null!;
+    public virtual DbSet<IfcTypePSetTbl> IfcTypePSets { get; set; } = null!;
+    public virtual DbSet<PropertyPhaseTbl> PropertyPhase { get; set; } = null!;
+    public virtual DbSet<ProjectPropertyTbl> ProjectProperties { get; set; } = null!;
+    public virtual DbSet<PsetPropertyTbl> PSetProperties { get; set; } = null!;
+    public virtual DbSet<DisciplineTbl> Disciplines { get; set; } = null!;
+    public virtual DbSet<PhaseTbl> Phases { get; set; } = null!;
+    public virtual DbSet<IfcTypeTbl> IfcTypes { get; set; } = null!;
+    public virtual DbSet<ProjectTbl> Projects { get; set; } = null!;
+    public virtual DbSet<PropertyTbl> Properties { get; set; } = null!;
+    public virtual DbSet<PSetTbl> PSets { get; set; } = null!;
+    public virtual DbSet<RevitCategoryTbl> RevitCategories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -116,7 +116,7 @@ public class BimKravDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pset");
         });
-        
+
 
         modelBuilder.Entity<ProjectPropertyTbl>(entity =>
         {
@@ -169,7 +169,7 @@ public class BimKravDbContext : DbContext
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
         });
-        
+
 
         modelBuilder.Entity<IfcTypeTbl>(entity =>
         {

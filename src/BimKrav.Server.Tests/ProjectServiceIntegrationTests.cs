@@ -19,7 +19,7 @@ public class ProjectServiceIntegrationTests : IClassFixture<BimKravWebApplicatio
     public async Task GetAllProjects()
     {
         using var scope = _factory.Services.CreateScope();
-        var cut = scope.ServiceProvider.GetService<IProjectService>();
+        var cut = scope.ServiceProvider.GetRequiredService<IProjectService>();
         var projects = await cut.GetAllProjects();
 
         Assert.NotNull(projects);

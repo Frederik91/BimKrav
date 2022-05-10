@@ -13,7 +13,7 @@ namespace BimKrav.Server.Pages;
 [IgnoreAntiforgeryToken]
 public class ErrorModel : PageModel
 {
-    public string RequestId { get; set; }
+    public string RequestId { get; set; } = null!;
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 

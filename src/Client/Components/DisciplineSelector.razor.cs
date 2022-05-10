@@ -52,7 +52,7 @@ public class DisciplineSelectorBase : ComponentBase
         if (string.IsNullOrWhiteSpace(searchText) || AvailableDisciplines is null)
             return Task.FromResult(AvailableDisciplines as IEnumerable<Discipline> ?? new List<Discipline>());
 
-        var disciplines = AvailableDisciplines.Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+        var disciplines = AvailableDisciplines.Where(x => x.Name?.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) == true).ToList();
         if (disciplines.Count == 1 && disciplines.First().Name == searchText && disciplines.First().Id == SelectedDisciplineId)
             disciplines = AvailableDisciplines;
 

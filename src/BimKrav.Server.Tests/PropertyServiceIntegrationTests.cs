@@ -28,7 +28,7 @@ public class PropertyServiceIntegrationTests : IClassFixture<BimKravWebApplicati
     public async Task GetParameters(int? projectId, int? phaseId, int? disciplineId)
     {
         var scope = _factory.Services.CreateScope();
-        var cut = scope.ServiceProvider.GetService<IPropertyService>();
+        var cut = scope.ServiceProvider.GetRequiredService<IPropertyService>();
         var properties = await cut.GetProperties(projectId, phaseId, disciplineId);
 
         Assert.NotNull(properties);

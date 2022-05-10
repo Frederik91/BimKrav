@@ -38,7 +38,7 @@ public class PropertyTbl
 
     [Column("PropertyGroup", TypeName = "text")]
     [Required]
-    public string PropertyGroup { get; set; } = null;
+    public string PropertyGroup { get; set; } = null!;
 
     [Column("PropertyDescription", TypeName = "text")]
     public string? Description { get; set; } = null!;
