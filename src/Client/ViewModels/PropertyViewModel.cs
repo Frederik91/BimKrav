@@ -20,7 +20,7 @@ public class PropertyViewModel
 
     public string? Description { get; set; }
 
-    public List<PSet> PSets { get; set; } = null!;
+    public PSet? PSet { get; set; }
     public string Comment { get; set; } = null!;
 
     public Guid? Guid { get; set; }

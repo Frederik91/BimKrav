@@ -39,9 +39,9 @@ else
                     </MudTh>
                 </GroupHeaderTemplate>
                 <HeaderContent>
-                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Name))">Name</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Description))">Description</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSets.FirstOrDefault()?.Name ?? "None") + x.Comment))">Comments</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSet?.Name ?? "None") + x.Name))">Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSet?.Name ?? "None") + x.Description))">Description</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="@(new Func<PropertyViewModel, object>(x => (x.PSet?.Name ?? "None") + x.Comment))">Comments</MudTableSortLabel></MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Name">
@@ -66,7 +66,7 @@ else
             Indentation = true,
             Expandable = true,
             IsInitiallyExpanded = false,
-            Selector = (e) => e?.PSets.FirstOrDefault()?.Name ?? "None"
+            Selector = (e) => e?.PSet?.Name ?? "None"
         };
 
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -13,7 +14,6 @@ public class BimKravDbContext : DbContext
     public virtual DbSet<DisciplineRevitCategoryTbl> DisciplineRevitCategories { get; set; } = null!;
     public virtual DbSet<RevitCategoryIfcTypeTbl> RevitCategoryIfcTypes { get; set; } = null!;
     public virtual DbSet<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
-    public virtual DbSet<PhasePropertyTbl> PhaseProperties { get; set; } = null!;
     public virtual DbSet<IfcTypePSetTbl> IfcTypePSets { get; set; } = null!;
     public virtual DbSet<PropertyPhaseTbl> PropertyPhase { get; set; } = null!;
     public virtual DbSet<ProjectPropertyTbl> ProjectProperties { get; set; } = null!;
@@ -75,27 +75,6 @@ public class BimKravDbContext : DbContext
                 .HasConstraintName("FK_element_property_junction_copy_tblproperty_copy");
         });
 
-        modelBuilder.Entity<PhasePropertyTbl>(entity =>
-        {
-            entity.HasKey(e => new { FaseId = e.PhaseId, e.PropertyId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-            entity.HasIndex(e => e.PropertyId, "FK_property");
-
-            entity.HasOne(d => d.Phase)
-                .WithMany(p => p.PhaseProperties)
-                .HasForeignKey(d => d.PhaseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_fase");
-
-            entity.HasOne(d => d.Property)
-                .WithMany(p => p.PhaseProperties)
-                .HasForeignKey(d => d.PropertyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_property2");
-        });
-
         modelBuilder.Entity<IfcTypePSetTbl>(entity =>
         {
             entity.HasKey(e => new { IdEntitet = e.IfcTypeId, IdPset = e.PsetId })
@@ -120,6 +99,7 @@ public class BimKravDbContext : DbContext
 
         modelBuilder.Entity<ProjectPropertyTbl>(entity =>
         {
+            entity.HasKey(x => new { ID_Project = x.ProjectId, ID_Property = x.PropertyId });
             entity.HasIndex(e => e.ProjectId, "ID_Project");
 
             entity.HasIndex(e => e.PropertyId, "ID_Property");
@@ -189,7 +169,20 @@ public class BimKravDbContext : DbContext
         {
             entity.HasKey(e => e.Id)
                 .HasName("PRIMARY");
+
+            entity.HasMany(x => x.Projects)
+                .WithOne(x => x.Property);
+
+            entity.HasMany(x => x.Phase)
+                .WithOne(x => x.Property);
         });
+
+        modelBuilder.Entity<PropertyPhaseTbl>(entity =>
+        {
+            entity.HasKey(e => new { ID_Property = e.PropertyId, ID_PSet = e.PSetId })
+                .HasName("PRIMARY");
+        });
+
 
         modelBuilder.Entity<PSetTbl>(entity =>
         {

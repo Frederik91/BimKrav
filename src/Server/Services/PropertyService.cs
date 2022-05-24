@@ -104,4 +104,21 @@ public class PropertyService : IPropertyService
 
         return result;
     }
+
+    public async Task<List<Property>> GetPropertiesByProject(int projectId)
+    {
+        var properties = await _context.Properties
+            .Include(x => x.RevitCategoryProperties)
+            .ThenInclude(x => x.RevitCategory)
+            .ThenInclude(x => x.DisciplineRevitCategories)
+            .ThenInclude(x => x.Discipline)
+            .Include(x => x.PSetProperties)
+            .ThenInclude(x => x.PSet)
+            .Include(x => x.Phase)
+            .Where(x => x.Projects.Any(y => y.ProjectId == projectId))
+            .ToListAsync();
+
+
+        return _mapper.Map<List<Property>>(properties);
+    }
 }

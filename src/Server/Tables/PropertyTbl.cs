@@ -12,8 +12,9 @@ public class PropertyTbl
     public PropertyTbl()
     {
         RevitCategoryProperties = new HashSet<RevitCategoryPropertiesTbl>();
-        PhaseProperties = new HashSet<PhasePropertyTbl>();
         PSetProperties = new HashSet<PsetPropertyTbl>();
+        Phase = new HashSet<PropertyPhaseTbl>();
+        Projects = new HashSet<ProjectPropertyTbl>();
     }
 
     [Column("ID_Property", TypeName = "int(11)")]
@@ -61,7 +62,8 @@ public class PropertyTbl
     [MaxLength(36)]
     public Guid? Guid { get; set; }
     
-    public virtual ICollection<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } = null!;
-    public virtual ICollection<PhasePropertyTbl> PhaseProperties { get; set; } = null!;
-    public virtual ICollection<PsetPropertyTbl> PSetProperties { get; set; } = null!;
+    public virtual ICollection<PropertyPhaseTbl> Phase { get; set; }
+    public virtual ICollection<ProjectPropertyTbl> Projects { get; set; } 
+    public virtual ICollection<RevitCategoryPropertiesTbl> RevitCategoryProperties { get; set; } 
+    public virtual ICollection<PsetPropertyTbl> PSetProperties { get; set; }
 }

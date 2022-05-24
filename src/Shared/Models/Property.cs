@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BimKrav.Shared.Models
+namespace BimKrav.Shared.Models;
+
+public class Property
 {
-    public class Property
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-        public string IfcPropertyType { get; set; } = null!;
+    public string IfcPropertyType { get; set; } = null!;
 
-        public string RevitPropertyType { get; set; } = null!;
+    public string RevitPropertyType { get; set; } = null!;
 
-        public string TypeInstance { get; set; } = null!;
+    public string TypeInstance { get; set; } = null!;
 
-        public string PropertyGroup { get; set; } = null!;
+    public string PropertyGroup { get; set; } = null!;
 
-        public string? Description { get; set; }
+    public string? Description { get; set; }
 
-        public List<PSet> PSets { get; set; } = null!;
+    public List<PSet> PSets { get; set; } = null!;
 
-        public string Comment { get; set; } = null!;
+    public string Comment { get; set; } = null!;
 
-        public Guid? Guid { get; set; }
+    public Guid? Guid { get; set; }
 
-        public List<RevitCategory> RevitCategories { get; set; } = null!;
-    }
+    public List<RevitCategory> RevitCategories { get; set; } = null!;
+    public List<string> Phases { get; set; } = null!;
 }

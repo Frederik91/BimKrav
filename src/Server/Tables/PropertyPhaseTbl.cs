@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BimKrav.Server.Tables;
 
 [Table("property_fase_flagg_junction")]
-[Keyless]
 public class PropertyPhaseTbl
 {
     [Column("ID_Property", TypeName = "int(11)")]
@@ -29,4 +28,7 @@ public class PropertyPhaseTbl
 
     [Column("Overlevering", TypeName = "tinyint(4)")]
     public bool Overlevering { get; set; }
+
+    public PropertyTbl Property { get; set; } = null!;
+    public PSetTbl PSet { get; set; } = null!;
 }

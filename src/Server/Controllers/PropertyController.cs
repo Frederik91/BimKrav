@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BimKrav.Server.Services;
 using BimKrav.Shared.Models;
@@ -19,6 +20,22 @@ public class PropertyController : Controller
     {
         _logger = logger;
         _parameterService = parameterService;
+    }
+
+    [HttpGet("project/{projectId}")]
+    [ProducesResponseType(typeof(Property), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetProjectProperties(int projectId)
+    {
+        try
+        {
+            return Ok(await _parameterService.GetPropertiesByProject(projectId));
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Failed to get properties", e);
+            return Problem(e.Message);
+        }
     }
 
     [HttpGet]

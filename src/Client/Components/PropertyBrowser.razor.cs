@@ -73,7 +73,7 @@ public class PropertyBrowserBase : ComponentBase
             return true;
         if (parameter.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
             return true;
-        if (parameter.PSets.Any(x => x.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase)))
+        if (parameter.PSet?.Name.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase) == true)
             return true;
         if (parameter.RevitPropertyType.Contains(PropertySearchText, StringComparison.InvariantCultureIgnoreCase))
             return true;
@@ -93,7 +93,18 @@ public class PropertyBrowserBase : ComponentBase
         try
         {
             var properties = await PropertyService.GetProperties(ProjectId, PhaseId, DisciplineId);
-            Properties = Mapper.Map<List<PropertyViewModel>>(properties).OrderBy(x => x.PSets.FirstOrDefault()?.Name ?? "None").ToList();
+            var propertyVms = new List<PropertyViewModel>();
+            foreach (var property in properties)
+            {
+                foreach (var pSet in property.PSets)
+                {
+                    var vm = Mapper.Map<PropertyViewModel>(property);
+                    vm.PSet = pSet;
+                    propertyVms.Add(vm);
+                }
+            }
+
+            Properties = propertyVms;
         }
         catch (Exception)
         {
